@@ -1,1 +1,34 @@
-<p>login-component works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      [class.error]="email?.invalid && email?.dirty"
+    />
+    @if (email?.invalid && email?.dirty) {
+    <span class="error-message">
+      @if (email?.hasError('required')) { El email es requerido } @else if
+      (email?.hasError('email')) { Email inválido }
+    </span>
+    }
+  </div>
+
+  <div>
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      [class.error]="password?.invalid && password?.dirty"
+    />
+    @if (password?.invalid && password?.dirty) {
+    <span class="error-message">
+      @if (password?.hasError('required')) { La contraseña es requerida }
+    </span>
+    }
+  </div>
+
+  <button type="submit" [disabled]="loginForm.invalid">Iniciar sesión</button>
+</form>

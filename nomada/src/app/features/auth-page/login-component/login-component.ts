@@ -1,11 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { PasswordValidators } from '../../../shared/validators/password.validator';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login-component',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login-component.html',
   styleUrl: './login-component.scss',
 })
 export class LoginComponent {
+  loginForm: FormGroup;
 
+  loginSubmit = output<{ email: string; password: string }>();
+
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.loginSubmit.emit({ email, password });
+    }
+  }
+
+  // Getters for form controls for easier access in the template
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
 }

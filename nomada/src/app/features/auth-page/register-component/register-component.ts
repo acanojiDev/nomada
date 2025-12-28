@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, output } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { PasswordValidators } from '../../../shared/validators/password.validator';
