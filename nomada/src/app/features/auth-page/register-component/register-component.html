@@ -1,1 +1,69 @@
-<p>register-component works!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      [class.error]="email?.invalid && email?.dirty"
+    />
+    @if (email?.invalid && email?.dirty) {
+    <span class="error-message">
+      @if (email?.hasError('required')) { El email es requerido } @else if
+      (email?.hasError('email')) { Email inválido }
+    </span>
+    }
+  </div>
+
+  <div>
+    <label for="username">Nombre de usuario:</label>
+    <input
+      id="username"
+      type="text"
+      formControlName="username"
+      [class.error]="username?.invalid && username?.dirty"
+    />
+    @if (username?.invalid && username?.dirty) {
+    <span class="error-message">
+      @if (username?.hasError('required')) { El nombre de usuario es requerido } 
+      @else if (username?.hasError('minlength')) { Mínimo 3 caracteres }
+    </span>
+    }
+  </div>
+
+  <div>
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      [class.error]="password?.invalid && password?.dirty"
+    />
+    @if (password?.invalid && password?.dirty) {
+    <span class="error-message">
+      @if (password?.hasError('required')) { La contraseña es requerida } 
+      @else if (password?.hasError('minlength')) { Mínimo 6 caracteres }
+      @else if (password?.hasError('noUpperCase')) { Tiene que tener al menos una letra mayúscula }
+      @else if (password?.hasError('noNumber')) { Tiene que tener al menos un número }
+    </span>
+    }
+  </div>
+
+  <div>
+    <label for="confirmPassword">Confirmar Password:</label>
+    <input
+      id="confirmPassword"
+      type="password"
+      formControlName="confirmPassword"
+      [class.error]="confirmPassword?.invalid && confirmPassword?.dirty"
+    />
+    @if (confirmPassword?.invalid && confirmPassword?.dirty) {
+    <span class="error-message">
+      @if (confirmPassword?.hasError('required')) { Confirma tu contraseña } 
+      @else if (registerForm.hasError('passwordMismatch')) { Las contraseñas no coinciden }
+    </span>
+    }
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+</form>

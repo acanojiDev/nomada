@@ -10,16 +10,13 @@ export class Auth {
   currentUser = signal<User | null>(null);
 
   constructor() {
-    this.supabase = createClient(
-      environment.SUPABASE_URL,
-      environment.SUPABASE_KEY
-    );
+    this.supabase = createClient(environment.SUPABASE_URL, environment.SUPABASE_KEY);
   }
 
   async signIn(email: string, password: string) {
     const { data, error } = await this.supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     });
     if (data.user) {
       this.currentUser.set(data.user);
@@ -27,7 +24,7 @@ export class Auth {
     return { data, error };
   }
 
-  async signUp(email: string, password: string) {
-    return await this.supabase.auth.signUp({ email, password });
+  async signUp(email: string, password: string, username: string) {
+    return await this.supabase.auth.signUp({ email, password, options: { data: { username } } });
   }
 }
