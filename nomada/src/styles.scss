@@ -1,22 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* You can add global styles to this file, and also import other style files */
-// Primarios
-$color-primary: #0066cc;
-$color-secondary: #ff6b35;
-$color-accent: #00d9ff;
-
-$color-success: #10b981;
-$color-warning: #f59e0b;
-$color-danger: #ef4444;
-
-$color-background: #ffffff;
-$color-background-light: #daebff;  //se supone que es azul claro xd
-$color-background-secondary: #fef3f0;
-
-// Texto
-$color-text-primary: #0f172a;
-$color-text-secondary: #475569;
-$color-text-muted: #94a3b8;        // textos deshabilitados
-
-// Bordes
-$color-border: #e2e8f0;
-$color-border-light: #f1f5f9;
+:root {
+  // Colors
+  --color-primary: #0066cc;
+  --color-secondary: #ff6b35;
+  --color-accent: #00d9ff;
+  
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  --color-background: #ffffff;
+  --color-background-light: #daebff;
+  --color-background-secondary: #fef3f0;
+  
+  // Text
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #acb8c9;        // disabled text, placeholders
+  
+  // Borders
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+}

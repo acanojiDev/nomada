@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Auth } from '../../core/services/auth';
 import { RegisterComponent } from "./register-component/register-component";
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { LoginComponent } from './login-component/login-component';
   styleUrl: './auth-page.scss',
 })
 export class AuthPage {
+  isLoginMode = signal(true);
   authService = inject(Auth);
   router = inject(Router);
 
@@ -45,5 +46,9 @@ export class AuthPage {
     if (data.user) {
       this.router.navigate(['/']);
     }
+  }
+
+  toggleMode() {
+    this.isLoginMode.update(value => !value);
   }
 }

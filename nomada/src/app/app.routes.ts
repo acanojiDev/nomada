@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    component: AuthPage,
-     canActivate: [guestGuard()],
+    loadComponent: () => import('./features/auth-page/auth-page').then(m => m.AuthPage),
+    canActivate: [guestGuard()],
   }
 ];
