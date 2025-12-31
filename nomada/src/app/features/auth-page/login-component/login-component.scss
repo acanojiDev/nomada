@@ -51,6 +51,10 @@
       padding-right: 3rem;
     }
 
+    &:focus {
+      border-color: var(--color-primary);
+    }
+
     &::placeholder {
       color: #9ca3af;
     }
@@ -127,8 +131,8 @@
       background-color: var(--color-secondary);
       transform: translateY(-1px);
     }
-    
-    &:disabled{
+
+    &:disabled {
       background-color: #d1d5db;
       cursor: not-allowed;
       box-shadow: none;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,6 +19,8 @@ import { PasswordValidators } from '../../../shared/validators/password.validato
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  showPassword = signal(false);
+  showConfirmPassword = signal(false);
 
   registerSubmit = output<{ email: string; password: string; username: string }>();
 
@@ -41,6 +43,14 @@ export class RegisterComponent {
       const { email, password, username } = this.registerForm.value;
       this.registerSubmit.emit({ email, password, username });
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword.update(value => !value);
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword.update(value => !value);
   }
 
   // Getters for form controls for easier access in the template
