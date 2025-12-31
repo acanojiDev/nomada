@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PasswordValidators } from '../../../shared/validators/password.validator';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login-component.scss',
 })
 export class LoginComponent {
+  showPassword = signal(false);
   loginForm: FormGroup;
 
   loginSubmit = output<{ email: string; password: string }>();
@@ -26,6 +27,10 @@ export class LoginComponent {
       const { email, password } = this.loginForm.value;
       this.loginSubmit.emit({ email, password });
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword.update(value => !value);
   }
 
   // Getters for form controls for easier access in the template
