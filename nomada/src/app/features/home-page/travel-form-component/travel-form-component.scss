@@ -1,0 +1,133 @@
+.travel-form {
+  &__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    font-weight: bold;
+  }
+
+  &__input-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__input,
+  &__textarea {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  &__textarea {
+    resize: none;
+  }
+
+  &__button {
+    padding: 0 0.75rem;
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover:not(:disabled) {
+      background: #ddd;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__error {
+    color: var(--color-danger);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  &__destinations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  &__destination {
+    background: #eee;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &-remove {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+
+      &:hover {
+        color: var(--color-danger);
+      }
+    }
+  }
+
+  &__interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__interest {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+
+    &--selected {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(.travel-form__interest--disabled) {
+      transform: scale(1.05);
+      transition: 0.2s;
+    }
+  }
+
+  &__submit {
+    padding: 0.75rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -39,12 +39,13 @@ export class AuthPage {
       credentials.password
     );
     if (error) {
-      console.error('Error during login:', error);
+      console.error('Error during login:', error.message);
+      
       return;
     }
 
     if (data.user) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
     }
   }
 

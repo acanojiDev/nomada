@@ -1,0 +1,100 @@
+<div class="travel-form">
+  <h2 class="travel-form__title">Planifica tu viaje con IA</h2>
+
+  <form [formGroup]="travelForm" class="travel-form__form" (ngSubmit)="onSubmit()">
+    <div class="travel-form__group">
+      <label class="travel-form__label">Destinos</label>
+      <div class="travel-form__input-group">
+        <input
+          type="text"
+          formControlName="destinationInput"
+          class="travel-form__input"
+          placeholder="Añade una ciudad o lugar..."
+          (keydown)="onKeyDown($event)"
+        />
+        <button
+          type="button"
+          class="travel-form__button"
+          (click)="addDestination()"
+        >
+          +
+        </button>
+      </div>
+
+      <div class="travel-form__destinations">
+        @for (dest of cities.value; track $index; let index = $index) {
+          <span class="travel-form__destination">
+            {{ dest }}
+            <button type="button" class="travel-form__destination-remove" (click)="removeDestination(index)">
+              x
+            </button>
+          </span>
+        }
+      </div>
+
+      @if (cities.errors?.['minLengthArray'] && cities.dirty) {
+        <span class="travel-form__error">
+          Debes agregar al menos 1 ciudad
+        </span>
+      }
+    </div>
+
+    <div class="travel-form__group">
+      <label class="travel-form__label">Presupuesto (opcional)</label>
+      <input
+        type="text"
+        formControlName="budget"
+        class="travel-form__input"
+        placeholder="Ej: 500€ por persona, sin límite..."
+      />
+    </div>
+
+    <div class="travel-form__group">
+      <label class="travel-form__label">Intereses (máx. 3)</label>
+      <div class="travel-form__interests">
+        @for (interest of suggestedInterests; track $index) {
+          <span
+            class="travel-form__interest"
+            [class.travel-form__interest--selected]="interests.value.includes(interest)"
+            [class.travel-form__interest--disabled]="
+              !interests.value.includes(interest) && interests.length >= 3
+            "
+            (click)="toggleInterest(interest)"
+          >
+            {{ interest }}
+          </span>
+        }
+      </div>
+
+      @if (interests.errors?.['minLengthArray'] && interests.dirty) {
+        <span class="travel-form__error">
+          Debes seleccionar al menos 1 interés
+        </span>
+      }
+    </div>
+
+    <div class="travel-form__group">
+      <label class="travel-form__label">¿Qué te gustaría saber?</label>
+      <textarea
+        class="travel-form__textarea"
+        formControlName="about"
+        rows="4"
+        placeholder="Escribe en lenguaje natural..."
+      ></textarea>
+
+      @if (query?.invalid && query?.dirty) {
+        <span class="travel-form__error">
+          Este campo es requerido
+        </span>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="travel-form__submit"
+      [disabled]="isLoading() || !travelForm.valid || cities.length === 0 || interests.length === 0"
+    >
+      {{ isLoading() ? 'Generando itinerario...' : 'Generar Itinerario' }}
+    </button>
+  </form>
+</div>
