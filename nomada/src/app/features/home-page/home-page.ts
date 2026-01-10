@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TravelFormComponent } from './travel-form-component/travel-form-component';
 import { Itinerary } from '../../core/services/itinerary';
 import { Travel } from '../../core/interfaces/travel';
+import { Auth } from '../../core/services/auth';
 
 @Component({
   selector: 'app-home-page',
@@ -11,6 +12,8 @@ import { Travel } from '../../core/interfaces/travel';
 })
 export class HomePage {
   itineraryService = inject(Itinerary);
+  authService = inject(Auth);
+  user = this.authService.currentUser();
   isLoading = this.itineraryService.isLoading;
   error = this.itineraryService.error;
   
