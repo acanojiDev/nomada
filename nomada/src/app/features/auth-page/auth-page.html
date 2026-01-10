@@ -1,0 +1,173 @@
+<div class="auth-page">
+  <!-- Left Panel -->
+  <div class="auth-page__left-panel">
+    <div class="auth-page__left-panel--background">
+      <div class="auth-page__left-panel--icon auth-page__left-panel--icon-plane">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="96"
+          height="96"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
+          />
+        </svg>
+      </div>
+
+      <div class="auth-page__left-panel--icon auth-page__left-panel--icon-globe">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="128"
+          height="128"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+          <path d="M2 12h20" />
+        </svg>
+      </div>
+
+      <div class="auth-page__left-panel--icon auth-page__left-panel--icon-map-pin">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="80"
+          height="80"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="auth-page__left-panel--content">
+      <div class="auth-page__left-panel--header">
+        <div class="auth-page__left-panel--logo">
+          <div class="auth-page__left-panel--logo-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
+          </div>
+          <span class="auth-page__left-panel--brand">NomadaGO</span>
+        </div>
+
+        <h2 class="auth-page__left-panel--title">
+          Descubre el mundo<br />
+          <span class="auth-page__left-panel--subtitle">con inteligencia</span>
+        </h2>
+
+        <p class="auth-page__left-panel--description">
+          Planifica tus viajes de manera inteligente con itinerarios personalizados creados por IA.
+        </p>
+
+        <ul class="auth-page__left-panel--features">
+          <li class="auth-page__left-panel--feature">
+            <div class="auth-page__left-panel--feature-icon">
+              <div class="auth-page__left-panel--feature-dot"></div>
+            </div>
+            <span>Itinerarios personalizados con IA</span>
+          </li>
+
+          <li class="auth-page__left-panel--feature">
+            <div class="auth-page__left-panel--feature-icon">
+              <div class="auth-page__left-panel--feature-dot"></div>
+            </div>
+            <span>Rutas optimizadas para cada destino</span>
+          </li>
+
+          <li class="auth-page__left-panel--feature">
+            <div class="auth-page__left-panel--feature-icon">
+              <div class="auth-page__left-panel--feature-dot"></div>
+            </div>
+            <span>Recomendaciones según tu presupuesto</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="auth-page__right-panel">
+    <div class="auth-page__right-panel--container">
+      <!-- Mobile Logo -->
+      <div class="auth-page__right-panel--mobile-logo">
+        <div class="auth-page__right-panel--mobile-logo-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+          </svg>
+        </div>
+        <h1 class="auth-page__right-panel--mobile-brand">NomadaGO</h1>
+      </div>
+
+      <!-- Form Header -->
+      <div class="auth-page__right-panel--form-header">
+        <h1 class="auth-page__right-panel--form-title">
+          {{ isLoginMode() ? '¡Bienvenido de nuevo!' : 'Únete a nosotros' }}
+        </h1>
+        <p class="auth-page__right-panel--form-description">
+          {{
+            isLoginMode()
+              ? 'Inicia sesión para continuar explorando'
+              : 'Crea tu cuenta y empieza a viajar'
+          }}
+        </p>
+      </div>
+
+      <!-- Components -->
+      @if (isLoginMode()) {
+        <app-login-component (loginSubmit)="handleLogin($event)"></app-login-component>
+      } @else {
+        <app-register-component (registerSubmit)="handleRegister($event)"></app-register-component>
+      }
+
+      <!-- Switch Mode -->
+      <div class="auth-page__right-panel--switch">
+        <p class="auth-page__right-panel--switch-question">
+          {{ isLoginMode() ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
+        </p>
+        <button type="button" (click)="toggleMode()" class="auth-page__right-panel--switch-button">
+          {{ isLoginMode() ? 'Regístrate gratis' : 'Inicia sesión' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

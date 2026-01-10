@@ -1,0 +1,15 @@
+<div class="home-page">
+  <main class="home-page__main">
+    <div class="home-page__header">
+      <h1 class="home-page__title">¡Hola, {{ user?.user_metadata?.['username'] }}!</h1>
+      <p class="home-page__subtitle">¿A dónde te gustaría ir hoy?</p>
+    </div>
+
+    <div class="home-page__form-container">
+      <app-travel-form-component
+        (submitForm)="submitForm($event)"
+        [isLoading]="isLoading()"
+      ></app-travel-form-component>
+    </div>
+  </main>
+</div>
