@@ -1,1 +1,1 @@
-<app-travel-form-component [isLoading]="false"></app-travel-form-component>
+<app-travel-form-component (submitForm)="submitForm($event)" [isLoading]="isLoading()"></app-travel-form-component>

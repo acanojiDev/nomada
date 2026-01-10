@@ -83,7 +83,6 @@ export class TravelFormComponent {
 
   onSubmit(): void {
     if (this.travelForm.valid && this.cities.length > 0) {
-      console.log(this.travelForm.value);
       const { about, budget } = this.travelForm.value;
       this.submitForm.emit({
         about: about,
