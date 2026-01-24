@@ -11,16 +11,16 @@ import {
 import { minLengthArray } from '../../../shared/validators/arrayLength.validator';
 
 const SUGGESTED_INTERESTS = [
-  'Historia',
-  'Arte',
-  'Gastronomía',
-  'Naturaleza',
-  'Arquitectura',
-  'Museos',
-  'Vida nocturna',
-  'Compras',
-  'Aventura',
-  'Relax',
+  { name: "Historia", emoji: "🏛️" },
+  { name: "Arte", emoji: "🎨" },
+  { name: "Gastronomía", emoji: "🍽️" },
+  { name: "Naturaleza", emoji: "🌿" },
+  { name: "Arquitectura", emoji: "🏰" },
+  { name: "Museos", emoji: "🖼️" },
+  { name: "Vida nocturna", emoji: "🌙" },
+  { name: "Compras", emoji: "🛍️" },
+  { name: "Aventura", emoji: "⛰️" },
+  { name: "Relax", emoji: "🧘" },
 ];
 
 @Component({
@@ -37,6 +37,7 @@ export class TravelFormComponent {
     about: string;
     cities: string[];
     budget: string;
+    days: number;
     interests: string[];
   }>();
 
@@ -46,6 +47,7 @@ export class TravelFormComponent {
     this.travelForm = this.fb.group({
       about: ['', Validators.required],
       budget: [''],
+      days: [1, [Validators.required, Validators.min(1)]],
       destinationInput: ['', []],
       cities: this.fb.array([], minLengthArray(1)),
       interests: this.fb.array([], minLengthArray(1)),
@@ -63,14 +65,17 @@ export class TravelFormComponent {
 
   removeDestination(index: number): void {
     this.cities.removeAt(index);
+    this.cities.markAsTouched();
   }
 
   toggleInterest(interest: string): void {
     const index = this.interests.value.indexOf(interest);
     if (index > -1) {
       this.interests.removeAt(index);
+      this.interests.markAsTouched();
     } else if (this.interests.length < 3) {
       this.interests.push(new FormControl(interest));
+      this.interests.markAsTouched();
     }
   }
 
@@ -83,10 +88,11 @@ export class TravelFormComponent {
 
   onSubmit(): void {
     if (this.travelForm.valid && this.cities.length > 0) {
-      const { about, budget } = this.travelForm.value;
+      const { about, budget, days } = this.travelForm.value;
       this.submitForm.emit({
-        about: about,
+        about,
         budget,
+        days: Number(days),
         cities: this.cities.value,
         interests: this.interests.value,
       });
@@ -101,12 +107,16 @@ export class TravelFormComponent {
     return this.travelForm.get('interests') as FormArray;
   }
 
-  get query() {
-    return this.travelForm.get('query');
+  get about() {
+    return this.travelForm.get('about');
   }
 
   get budget() {
     return this.travelForm.get('budget');
+  }
+
+  get days() {
+    return this.travelForm.get('days');
   }
 
   get destination() {
