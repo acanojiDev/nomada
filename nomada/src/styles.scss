@@ -6,25 +6,49 @@
 
 /* You can add global styles to this file, and also import other style files */
 :root {
+  // Fonts
+  --font-primary: 'Inter', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+
   // Colors
-  --color-primary: #0066cc;
+  --color-primary: #000000; // Professional black
+  --color-primary-soft: #1a1a1a;
   --color-secondary: #ff6b35;
   --color-accent: #00d9ff;
-  
+
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
-  
+
   --color-background: #ffffff;
-  --color-background-light: #daebff;
-  --color-background-secondary: #fef3f0;
-  
+  --color-background-subtle: #fafafa;
+  --color-background-light: #f1f5f9;
+
   // Text
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #acb8c9;        // disabled text, placeholders
-  
-  // Borders
-  --color-border: #e2e8f0;
-  --color-border-light: #f1f5f9;
+  --color-text-primary: #121212;
+  --color-text-secondary: #525252;
+  --color-text-muted: #8e8e8e;
+
+  // Borders & Shadows
+  --color-border: #eeeeee;
+  --color-border-dark: #e5e7eb;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }

@@ -17,10 +17,10 @@
     </div>
     @if (email?.invalid && email?.dirty) {
       <span class="auth-form__error">
-        @if (email?.hasError('required')) { 
-          El email es requerido 
-        } @else if (email?.hasError('email')) { 
-          Email inválido 
+        @if (email?.hasError('required')) {
+          El email es requerido
+        } @else if (email?.hasError('email')) {
+          Email inválido
         }
       </span>
     }
@@ -62,15 +62,15 @@
     </div>
     @if (password?.invalid && password?.dirty) {
       <span class="auth-form__error">
-        @if (password?.hasError('required')) { 
-          La contraseña es requerida 
+        @if (password?.hasError('required')) {
+          La contraseña es requerida
         }
       </span>
     }
   </div>
 
-  <button 
-    type="submit" 
+  <button
+    type="submit"
     class="auth-form__submit"
     [disabled]="loginForm.invalid"
   >

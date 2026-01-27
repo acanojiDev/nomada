@@ -1,24 +1,24 @@
 import { Routes } from '@angular/router';
-import { AuthPage } from './features/auth-page/auth-page';
 import { authenticatedGuard } from './core/guards/authenticatedGuard';
-import { WelcomePage } from './features/welcome-page/welcome-page';
 import { guestGuard } from './core/guards/guestGuard';
-import { HomePage } from './features/home-page/home-page';
 
 export const routes: Routes = [
   {
     path: '',
-    component: WelcomePage,
+    loadComponent: () => import('./features/home-page/home-page').then(m => m.HomePage),
     canActivate: [authenticatedGuard()],
   },
   {
-    path: 'home',
-    loadComponent: () => import('./features/home-page/home-page').then(m => m.HomePage),
-    canActivate: [authenticatedGuard()],
+    path: 'welcome',
+    loadComponent: () => import('./features/landing-page/landing-page').then(m => m.LandingPage),
   },
   {
     path: 'auth',
     loadComponent: () => import('./features/auth-page/auth-page').then(m => m.AuthPage),
     canActivate: [guestGuard()],
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./features/error-page/error-page').then(m => m.ErrorPage)
   }
 ];

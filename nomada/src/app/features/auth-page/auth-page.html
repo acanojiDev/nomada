@@ -1,173 +1,152 @@
-<div class="auth-page">
-  <!-- Left Panel -->
-  <div class="auth-page__left-panel">
-    <div class="auth-page__left-panel--background">
-      <div class="auth-page__left-panel--icon auth-page__left-panel--icon-plane">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="96"
-          height="96"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
-          />
-        </svg>
+<!-- app.component.html -->
+<div class="NomadaGo-container">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <span class="plane-icon">✈</span>
+        <h1>Nomada go</h1>
       </div>
+      <nav class="nav">
+        <a href="#destinations" (click)="scrollToSection('destinations')">Destinations</a>
+        <a href="#experiences" (click)="scrollToSection('experiences')">Experiences</a>
+        <a href="#about" (click)="scrollToSection('about')">About</a>
+        <a href="#contact" (click)="scrollToSection('contact')">Contact</a>
+        <button class="btn-book" routerLink="/login">Log in</button>
+      </nav>
+    </div>
+  </header>
 
-      <div class="auth-page__left-panel--icon auth-page__left-panel--icon-globe">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="128"
-          height="128"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-          <path d="M2 12h20" />
-        </svg>
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-icon">📍</span>
+        Explore the World
       </div>
-
-      <div class="auth-page__left-panel--icon auth-page__left-panel--icon-map-pin">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="80"
-          height="80"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-          <circle cx="12" cy="10" r="3" />
-        </svg>
+      <h2 class="hero-title">No sabes<span class="italic">Viajar?</span></h2>
+      <p class="hero-subtitle">
+        Con nuestra Web eso no sera problema tuyo. Genera Itinerario con IA
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-primary">Start Your Journey <span>→</span></button>
+        <button class="btn-secondary">View Destinations</button>
       </div>
     </div>
+  </section>
 
-    <!-- Content -->
-    <div class="auth-page__left-panel--content">
-      <div class="auth-page__left-panel--header">
-        <div class="auth-page__left-panel--logo">
-          <div class="auth-page__left-panel--logo-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
-            </svg>
+  <!-- FEATURED DESTINATIONS -->
+  <section class="featured-destinations" id="destinations">
+    <div class="section-header">
+      <h2>¿No sabes dónde viajar?</h2>
+      <p>
+        Podrás crear itineraios desde playas hasta los picosde las montañas,
+        descubrir sitios extraordinarios que te dejaran sin respiración.
+      </p>
+    </div>
+
+    <div class="destinations-grid">
+      @for(dest of destinations; track dest){
+        <div class="destination-card">
+          <div class="card-image" [style.backgroundImage]="'url(' + dest.image + ')'"></div>
+          <div class="card-content">
+            <span class="card-price">From {{ dest.price }}</span>
+            <h3>{{ dest.name }}</h3>
+            <p>{{ dest.description }}</p>
           </div>
-          <span class="auth-page__left-panel--brand">NomadaGO</span>
         </div>
-
-        <h2 class="auth-page__left-panel--title">
-          Descubre el mundo<br />
-          <span class="auth-page__left-panel--subtitle">con inteligencia</span>
-        </h2>
-
-        <p class="auth-page__left-panel--description">
-          Planifica tus viajes de manera inteligente con itinerarios personalizados creados por IA.
-        </p>
-
-        <ul class="auth-page__left-panel--features">
-          <li class="auth-page__left-panel--feature">
-            <div class="auth-page__left-panel--feature-icon">
-              <div class="auth-page__left-panel--feature-dot"></div>
-            </div>
-            <span>Itinerarios personalizados con IA</span>
-          </li>
-
-          <li class="auth-page__left-panel--feature">
-            <div class="auth-page__left-panel--feature-icon">
-              <div class="auth-page__left-panel--feature-dot"></div>
-            </div>
-            <span>Rutas optimizadas para cada destino</span>
-          </li>
-
-          <li class="auth-page__left-panel--feature">
-            <div class="auth-page__left-panel--feature-icon">
-              <div class="auth-page__left-panel--feature-dot"></div>
-            </div>
-            <span>Recomendaciones según tu presupuesto</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Right Panel -->
-  <div class="auth-page__right-panel">
-    <div class="auth-page__right-panel--container">
-      <!-- Mobile Logo -->
-      <div class="auth-page__right-panel--mobile-logo">
-        <div class="auth-page__right-panel--mobile-logo-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
-          </svg>
-        </div>
-        <h1 class="auth-page__right-panel--mobile-brand">NomadaGO</h1>
-      </div>
-
-      <!-- Form Header -->
-      <div class="auth-page__right-panel--form-header">
-        <h1 class="auth-page__right-panel--form-title">
-          {{ isLoginMode() ? '¡Bienvenido de nuevo!' : 'Únete a nosotros' }}
-        </h1>
-        <p class="auth-page__right-panel--form-description">
-          {{
-            isLoginMode()
-              ? 'Inicia sesión para continuar explorando'
-              : 'Crea tu cuenta y empieza a viajar'
-          }}
-        </p>
-      </div>
-
-      <!-- Components -->
-      @if (isLoginMode()) {
-        <app-login-component (loginSubmit)="handleLogin($event)"></app-login-component>
-      } @else {
-        <app-register-component (registerSubmit)="handleRegister($event)"></app-register-component>
       }
 
-      <!-- Switch Mode -->
-      <div class="auth-page__right-panel--switch">
-        <p class="auth-page__right-panel--switch-question">
-          {{ isLoginMode() ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-choose-us" id="about">
+    <div class="section-header">
+      <span class="section-label">WHY CHOOSE US</span>
+      <h2>Travel <span class="italic">Differently</span></h2>
+      <p>
+        Entendemos que organizar un viaje puede ser lioso. <br> Por eso hemos creado esto para ti.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      @for(feature of features; track feature){
+      <div class="feature-card">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+      }
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section" id="experiences">
+    <div class="cta-content">
+      <h2>Ready to Explore?</h2>
+      <p>
+        Join thousands of travelers who've discovered their dream destinations with us. Your next
+        adventure is just a click away.
+      </p>
+      <button class="btn-cta">📧 Get Started <span>→</span></button>
+      <p class="cta-disclaimer">Free consultation • No commitment required</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <span class="plane-icon">✈</span>
+          <h3>NomadaGo</h3>
+        </div>
+        <p>
+          Crafting unforgettable journeys to the world's most beautiful destinations since 2010.
         </p>
-        <button type="button" (click)="toggleMode()" class="auth-page__right-panel--switch-button">
-          {{ isLoginMode() ? 'Regístrate gratis' : 'Inicia sesión' }}
-        </button>
+      </div>
+
+      <div class="footer-section">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#experiences">Experiences</a></li>
+          <li><a href="#">Travel Guides</a></li>
+          <li><a href="#">Special Offers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>hello@NomadaGo.com</p>
+        <p>+1 (555) 123-4567</p>
+        <p>New York, NY 10001</p>
+        <div class="social-icons">
+          <a href="#">📷</a>
+          <a href="#">f</a>
+          <a href="#">𝕏</a>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="footer-bottom">
+      <p>© 2024 NomadaGo. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
 </div>

@@ -1,0 +1,160 @@
+.itinerary {
+  padding: 6rem 2rem;
+  background: #fafafa;
+
+  &__container {
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  /* Floating stats */
+  &__stat {
+    position: absolute;
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    text-align: left;
+
+    &--budget {
+      top: -20px;
+      right: -20px;
+    }
+
+    &--time {
+      bottom: -20px;
+      left: -20px;
+    }
+  }
+
+  &__stat-value {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  &__stat-label {
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  /* Card */
+  &__card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  &__window {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+    &--red {
+      background: #ff5f57;
+    }
+    &--yellow {
+      background: #febc2e;
+    }
+    &--green {
+      background: #28c840;
+    }
+  }
+
+  &__window-title {
+    margin-left: 0.75rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  &__badge {
+    background: #000;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  &__intro {
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &__date {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  /* List */
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 1.4rem;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    cursor: pointer;
+
+    &:hover {
+      background: #fafafa;
+    }
+  }
+
+  &__day {
+    width: 36px;
+    height: 36px;
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 1rem;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__item-title {
+    font-weight: 500;
+  }
+
+  &__item-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  &__arrow {
+    font-size: 1.2rem;
+    color: #999;
+  }
+}

@@ -1,0 +1,153 @@
+.destinations {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.03em;
+  }
+
+  &__subtitle {
+    color: var(--color-text-secondary);
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  &__link {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--color-border);
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-text-primary);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 280px);
+    gap: 1.5rem;
+  }
+}
+
+/* =========================
+   Destination Card
+   ========================= */
+
+.destination-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  background: var(--color-background-light);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &:hover &__image {
+    transform: scale(1.1);
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    color: #ffffff;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  &__meta {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    background-color: var(--color-danger);
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
+  }
+
+  &__button {
+    margin-top: 1.25rem;
+    background-color: #ffffff;
+    color: var(--color-text-primary);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f3f4f6;
+      transform: scale(1.05);
+    }
+  }
+
+  /* ===== Modifiers ===== */
+
+  &--large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  &--small {
+    height: 100%;
+  }
+
+  &--wide {
+    grid-column: span 2;
+    height: 280px;
+  }
+}

@@ -5,11 +5,23 @@
       <p class="home-page__subtitle">¿A dónde te gustaría ir hoy?</p>
     </div>
 
-    <div class="home-page__form-container">
-      <app-travel-form-component
-        (submitForm)="submitForm($event)"
-        [isLoading]="isLoading()"
-      ></app-travel-form-component>
+    <div class="home-page__content">
+      <!-- Columna del formulario -->
+      <div class="home-page__form-container">
+        <app-travel-form-component
+          (submitForm)="submitForm($event)"
+          [isLoading]="isLoading()"
+        ></app-travel-form-component>
+      </div>
+
+      <!-- Columna del mapa -->
+      <div class="home-page__map-container">
+        <h3 class="home-page__map-title">Mapa de lugares</h3>
+        <div class="home-page__map">
+          <!-- Aquí va tu componente de mapa -->
+          <app-map-places-trip></app-map-places-trip>
+        </div>
+      </div>
     </div>
   </main>
 </div>

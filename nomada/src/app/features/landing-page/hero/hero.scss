@@ -1,0 +1,242 @@
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  border-bottom: 1px solid var(--color-border);
+
+  &__container {
+    max-width: 1240px;
+    margin: auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__logo {
+    width: 32px;
+    height: 32px;
+    background: #000;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  &__name {
+    font-weight: 700;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    letter-spacing: -0.03em;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  &__signin {
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  &__cta {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      background 0.2s ease;
+
+    &:hover {
+      background: var(--color-primary-soft);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+/* HERO */
+.hero {
+  padding-top: 140px;
+  background: radial-gradient(circle at 50% -20%, #f1f5f9 0%, #ffffff 50%);
+
+  &__container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 4rem 2rem 6rem;
+    text-align: center;
+  }
+
+  &__badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-full);
+    background: white;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    z-index: 1;
+
+    // The neon border effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: -150%;
+      left: -50%;
+      width: 200%;
+      height: 400%;
+      background: conic-gradient(transparent, var(--color-primary), transparent 30%);
+      animation: rotate 4s linear infinite;
+      z-index: -2;
+    }
+
+    // Creating the inner background to hide most of the gradient
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      background: white;
+      border-radius: inherit;
+      z-index: -1;
+    }
+  }
+
+  &__title {
+    font-size: 4.5rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-primary);
+    letter-spacing: -0.04em;
+
+    &--italic {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  &__description {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  &__primary {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-md);
+
+    &:hover {
+      background: var(--color-primary-soft);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  &__secondary {
+    background: white;
+    border: 1px solid var(--color-border-dark);
+    padding: 1rem 2rem;
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--color-background-subtle);
+      border-color: var(--color-text-primary);
+    }
+  }
+
+  &__features {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  &__feature__circle {
+    color: var(--color-success);
+  }
+
+  &__feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
