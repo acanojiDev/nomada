@@ -20,6 +20,14 @@
     line-height: 1.1;
     margin-bottom: 1.5rem;
     letter-spacing: -0.04em;
+
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 2rem;
+    }
   }
 
   &__subtitle {
@@ -34,6 +42,14 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     margin-bottom: 6rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__cta {
@@ -46,6 +62,13 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     box-shadow: var(--shadow-lg);
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      text-align: center;
+      gap: 2rem;
+      padding: 2.5rem 1.5rem;
+    }
   }
 
   &__cta-title {
@@ -54,6 +77,10 @@
     font-weight: 700;
     margin: 0 0 0.75rem;
     letter-spacing: -0.02em;
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
   }
 
   &__cta-text {
@@ -65,6 +92,11 @@
   &__cta-actions {
     display: flex;
     gap: 1.25rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      width: 100%;
+    }
   }
 }
 

@@ -6,6 +6,10 @@
     position: relative;
     max-width: 1000px;
     margin: auto;
+
+    @media (max-width: 1024px) {
+      padding: 0 1.5rem;
+    }
   }
 
   /* Floating stats */
@@ -16,6 +20,28 @@
     padding: 1rem 1.25rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     text-align: left;
+    z-index: 2;
+
+    @media (max-width: 1100px) {
+       position: static;
+       margin-bottom: 1rem;
+       display: inline-block;
+       width: calc(50% - 0.5rem);
+       box-sizing: border-box;
+
+       &--budget {
+         margin-right: 0.5rem;
+       }
+       &--time {
+         margin-left: 0.5rem;
+       }
+    }
+
+    @media (max-width: 600px) {
+      width: 100%;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
 
     &--budget {
       top: -20px;
@@ -32,6 +58,10 @@
     display: block;
     font-size: 1.6rem;
     font-weight: 600;
+
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
+    }
   }
 
   &__stat-label {
@@ -45,6 +75,10 @@
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+
+    @media (max-width: 600px) {
+      padding: 1.5rem;
+    }
   }
 
   &__card-header {
@@ -52,6 +86,12 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
   }
 
   &__window {
@@ -97,6 +137,10 @@
   &__title {
     font-size: 1.8rem;
     font-weight: 600;
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
   }
 
   &__date {
@@ -122,6 +166,10 @@
     border: 1px solid #eee;
     cursor: pointer;
 
+    @media (max-width: 480px) {
+      padding: 1rem;
+    }
+
     &:hover {
       background: #fafafa;
     }
@@ -138,6 +186,7 @@
     justify-content: center;
     font-weight: 600;
     margin-right: 1rem;
+    flex-shrink: 0;
   }
 
   &__content {
@@ -146,6 +195,9 @@
 
   &__item-title {
     font-weight: 500;
+    @media (max-width: 480px) {
+      font-size: 0.95rem;
+    }
   }
 
   &__item-subtitle {
@@ -156,5 +208,9 @@
   &__arrow {
     font-size: 1.2rem;
     color: #999;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 }

@@ -15,7 +15,29 @@
     <div class="header__actions">
       <a class="header__signin">Sign in</a>
       <button class="header__cta">Start planning</button>
+
+      <!-- Hamburger Button -->
+      <button class="header__hamburger" (click)="toggleMenu()" [class.header__hamburger--open]="isMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
+    <nav class="header__mobile-nav">
+      <a class="header__mobile-link" (click)="closeMenu()">Destinations</a>
+      <a class="header__mobile-link" (click)="closeMenu()">How it works</a>
+      <a class="header__mobile-link" (click)="closeMenu()">Features</a>
+      <a class="header__mobile-link" (click)="closeMenu()">Pricing</a>
+
+      <div class="header__mobile-actions">
+        <a class="header__mobile-signin" (click)="closeMenu()">Sign in</a>
+        <button class="header__mobile-cta" (click)="closeMenu()">Start planning</button>
+      </div>
+    </nav>
   </div>
 </header>
 
