@@ -1,19 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { TravelFormComponent } from './travel-form-component/travel-form-component';
 import { Itinerary } from '../../core/services/itinerary';
 import { Travel } from '../../core/interfaces/travel';
 import { Auth } from '../../core/services/auth';
-import { MapPlacesTrip } from "./map-places-trip/map-places-trip";
 
 @Component({
   selector: 'app-home-page',
-  imports: [TravelFormComponent, MapPlacesTrip],
+  imports: [TravelFormComponent],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
 export class HomePage {
   itineraryService = inject(Itinerary);
   authService = inject(Auth);
+  router = inject(Router);
+
   user = this.authService.currentUser();
   isLoading = this.itineraryService.isLoading;
   error = this.itineraryService.error;
@@ -22,7 +24,7 @@ export class HomePage {
     this.itineraryService.createItinerary(event).subscribe({
       next: (data: Travel) => {
         console.log('Itinerario creado:', data);
-        // NAVEGAR A LA PÁGINA DE DETALLES DEL ITINERARIO
+        this.router.navigate(['/details']);
       },
       error: (error: any) => {
         console.error('Error:', error);

@@ -1,27 +1,30 @@
 <div class="home-page">
-  <main class="home-page__main">
-    <div class="home-page__header">
-      <h1 class="home-page__title">¡Hola, {{ user?.user_metadata?.['username'] }}!</h1>
-      <p class="home-page__subtitle">¿A dónde te gustaría ir hoy?</p>
-    </div>
+  <!-- Animated Background -->
+  <div class="home-page__bg">
+    <div class="home-page__blob home-page__blob--1"></div>
+    <div class="home-page__blob home-page__blob--2"></div>
+    <div class="home-page__blob home-page__blob--3"></div>
+  </div>
 
-    <div class="home-page__content">
-      <!-- Columna del formulario -->
-      <div class="home-page__form-container">
-        <app-travel-form-component
-          (submitForm)="submitForm($event)"
-          [isLoading]="isLoading()"
-        ></app-travel-form-component>
+  <main class="home-page__main">
+    <div class="home-page__container">
+      <div class="home-page__header">
+        <h1 class="home-page__title">¡Hola, {{ user?.user_metadata?.['username'] }}!</h1>
+        <p class="home-page__subtitle">¿A dónde te gustaría ir hoy?</p>
       </div>
 
-      <!-- Columna del mapa -->
-      <div class="home-page__map-container">
-        <h3 class="home-page__map-title">Mapa de lugares</h3>
-        <div class="home-page__map">
-          <!-- Aquí va tu componente de mapa -->
-          <app-map-places-trip></app-map-places-trip>
+      <div class="home-page__content">
+        <div class="home-page__form-container">
+          <app-travel-form-component
+            (submitForm)="submitForm($event)"
+            [isLoading]="isLoading()"
+          ></app-travel-form-component>
         </div>
       </div>
     </div>
+
+<!--     @for(it of itineraryHistorial(); track it){
+
+    } -->
   </main>
 </div>

@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { minLengthArray } from '../../../shared/validators/arrayLength.validator';
+import { RouterLink } from "@angular/router";
 
 const SUGGESTED_INTERESTS = [
   { name: "Historia", emoji: "🏛️" },

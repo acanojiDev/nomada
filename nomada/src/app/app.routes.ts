@@ -18,6 +18,11 @@ export const routes: Routes = [
     canActivate: [guestGuard()],
   },
   {
+    path: 'details',
+    loadComponent: () => import('./features/details-page/details-page').then(m => m.DetailsPage),
+    canActivate: [authenticatedGuard()]
+  },
+  {
     path: '**',
     loadComponent: () => import('./features/error-page/error-page').then(m => m.ErrorPage)
   }

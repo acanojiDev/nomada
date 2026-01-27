@@ -1,0 +1,101 @@
+<div class="itinerary">
+  @if (itinerario()) {
+    <header class="itinerary__header">
+      <div class="itinerary__header-content">
+        <h2 class="itinerary__title">Tu viaje a {{ itinerario()?.cities?.[0] }}</h2>
+        <p class="itinerary__subtitle">Un recorrido personalizado diseñado por IA</p>
+      </div>
+    </header>
+
+    <div class="itinerary__days">
+      @for (day of itineraryData()?.days; track day.day) {
+        <div class="day-card" [class.day-card--expanded]="expandedDay() === day.day">
+          <button class="day-card__header" (click)="toggleDay(day.day)">
+            <div class="day-card__info">
+              <span class="day-card__number">Día {{ day.day }}</span>
+              <h3 class="day-card__title">{{ day.title }}</h3>
+            </div>
+            <span class="day-card__icon material-symbols-outlined">
+              {{ expandedDay() === day.day ? '↑' : '↓' }}
+            </span>
+          </button>
+
+          @if (expandedDay() === day.day) {
+            <div class="day-card__content">
+              <section class="meals">
+                <div class="meal-item">
+                  <span class="meal-item__icon">🍳</span>
+                  <div class="meal-item__info">
+                    <span class="meal-item__label">Desayuno</span>
+                    <p class="meal-item__desc">{{ day.meals.breakfast }}</p>
+                  </div>
+                </div>
+                <div class="meal-item">
+                  <span class="meal-item__icon">🍱</span>
+                  <div class="meal-item__info">
+                    <span class="meal-item__label">Almuerzo</span>
+                    <p class="meal-item__desc">{{ day.meals.lunch }}</p>
+                  </div>
+                </div>
+                <div class="meal-item">
+                  <span class="meal-item__icon">🍽️</span>
+                  <div class="meal-item__info">
+                    <span class="meal-item__label">Cena</span>
+                    <p class="meal-item__desc">{{ day.meals.dinner }}</p>
+                  </div>
+                </div>
+              </section>
+              <div class="timeline">
+                @for (place of day.places; track $index) {
+                  <article class="timeline__item">
+                    <div class="timeline__marker">
+                      <div class="timeline__dot"></div>
+                      @if (!$last) {
+                        <div class="timeline__line"></div>
+                      }
+                    </div>
+                    <div class="timeline__content">
+                      <div class="place-card">
+                        <div class="place-card__header">
+                          <span class="place-card__time">{{ place.visit_time }}</span>
+                          <span class="place-card__duration">({{ place.duration }})</span>
+                        </div>
+                        <h4 class="place-card__name">{{ place.name }}</h4>
+                        <p class="place-card__history">{{ place.history }}</p>
+
+                        @if (place.tips && place.tips.length > 0) {
+                          <div class="place-card__tips">
+                            <span class="place-card__tips-label">💡 Tips:</span>
+                            <ul class="place-card__tips-list">
+                              @for (tip of place.tips; track $index) {
+                                <li>{{ tip }}</li>
+                              }
+                            </ul>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </article>
+                }
+              </div>
+              <footer class="day-card__footer">
+                <div class="cost-estimate">
+                  <span class="cost-estimate__label">Presupuesto estimado:</span>
+                  <span class="cost-estimate__value">
+                    {{ day.daily_cost_estimate.min }} - {{ day.daily_cost_estimate.max }}
+                    {{ day.daily_cost_estimate.currency }}
+                  </span>
+                </div>
+              </footer>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="itinerary__loading">
+      <div class="spinner"></div>
+      <p>Estamos puliendo los detalles de tu aventura...</p>
+    </div>
+  }
+</div>
