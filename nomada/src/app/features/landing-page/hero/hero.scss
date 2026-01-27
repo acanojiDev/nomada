@@ -129,7 +129,7 @@
       left: -50%;
       width: 200%;
       height: 400%;
-      background: conic-gradient(transparent, var(--color-primary), transparent 30%);
+      background: conic-gradient(transparent, rgba(0, 238, 255, 0.5), transparent 40%);
       animation: rotate 4s linear infinite;
       z-index: -2;
     }
@@ -138,7 +138,7 @@
     &::after {
       content: '';
       position: absolute;
-      inset: 1px;
+      inset: 1.5px;
       background: white;
       border-radius: inherit;
       z-index: -1;
