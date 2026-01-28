@@ -1,23 +1,36 @@
 <header class="header">
   <div class="header__container">
+    <!-- Brand section: logo + app name -->
     <div class="header__brand">
       <div class="header__logo"></div>
       <span class="header__name">Nomada!!!</span>
     </div>
 
-    <nav class="header__nav">
-      <a class="header__link">Destinations</a>
-      <a class="header__link">How it works</a>
-      <a class="header__link">Features</a>
-      <a class="header__link">Pricing</a>
-    </nav>
+    <!-- Desktop Navigation - Only shown when user is NOT authenticated -->
+    @if (!isAuthenticated()) {
+      <nav class="header__nav">
+        <a class="header__link">Destinations</a>
+        <a class="header__link">How it works</a>
+        <a class="header__link">Features</a>
+        <a class="header__link">Pricing</a>
+      </nav>
+    }
 
+    <!-- Actions section: different content based on authentication status -->
     <div class="header__actions">
-      <a href="/auth" class="header__signin">Sign in</a>
-      <button class="header__cta">Start planning</button>
+      @if (!isAuthenticated()) {
+        <button class="header__cta">Start planning</button>
+      }
+      @if (isAuthenticated()) {
+        <button class="header__itineraries-btn" (click)="toggleSidebar()">My itineraries</button>
+      }
 
-      <!-- Hamburger Button -->
-      <button class="header__hamburger" (click)="toggleMenu()" [class.header__hamburger--open]="isMenuOpen">
+      <!-- Hamburger Menu Button -->
+      <button
+        class="header__hamburger"
+        (click)="toggleMenu()"
+        [class.header__hamburger--open]="isMenuOpen"
+      >
         <span></span>
         <span></span>
         <span></span>
@@ -25,18 +38,70 @@
     </div>
   </div>
 
-  <!-- Mobile Menu -->
-  <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
-    <nav class="header__mobile-nav">
-      <a class="header__mobile-link" (click)="closeMenu()">Destinations</a>
-      <a class="header__mobile-link" (click)="closeMenu()">How it works</a>
-      <a class="header__mobile-link" (click)="closeMenu()">Features</a>
-      <a class="header__mobile-link" (click)="closeMenu()">Pricing</a>
+  <!-- Mobile Menu - Navigation Landing -->
+  @if (!isAuthenticated()) {
+    <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
+      <nav class="header__mobile-nav">
+        <a class="header__mobile-link" (click)="closeMenu()">Destinations</a>
+        <a class="header__mobile-link" (click)="closeMenu()">How it works</a>
+        <a class="header__mobile-link" (click)="closeMenu()">Features</a>
+        <a class="header__mobile-link" (click)="closeMenu()">Pricing</a>
 
-      <div class="header__mobile-actions">
-        <a class="header__mobile-signin" (click)="closeMenu()">Sign in</a>
-        <button class="header__mobile-cta" (click)="closeMenu()">Start planning</button>
+        <div class="header__mobile-actions">
+          <button class="header__mobile-cta" (click)="closeMenu()">Start planning</button>
+        </div>
+      </nav>
+    </div>
+  }
+
+  <!-- Mobile Menu - itineraries -->
+  @if (isAuthenticated()) {
+    <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
+      <div class="header__mobile-travels">
+        <!-- Header with title -->
+        <div class="header__mobile-travels-header">
+          <h3>Mis Itinerarios</h3>
+        </div>
+
+        <!-- Scrollable list of travel itineraries -->
+        <div class="header__mobile-travels-list">
+          <!-- Empty state: shown when user has no itineraries -->
+          @if (userTravels().length === 0) {
+            <p class="header__empty-state">No tienes itinerarios aún</p>
+          }
+        </div>
+
+        <!-- Logout button at the bottom -->
+        <button class="header__logout-btn" (click)="logout()">Cerrar sesión</button>
       </div>
-    </nav>
-  </div>
+    </div>
+  }
+
+  <!-- Desktop Sidebar - Itineraries -->
+  @if (isAuthenticated()) {
+    <!-- Dark overlay behind sidebar, closes sidebar on click -->
+    @if (isSidebarOpen()) {
+      <div class="header__sidebar-overlay" (click)="closeSidebar()"></div>
+    }
+
+    <!-- Sidebar panel sliding from right side -->
+    <div class="header__sidebar" [class.header__sidebar--open]="isSidebarOpen()">
+      <!-- Sidebar header: title + close button -->
+      <div class="header__sidebar-header">
+        <h2>Mis Itinerarios</h2>
+        <button class="header__sidebar-close" (click)="closeSidebar()">×</button>
+      </div>
+
+      <!-- Main content area: scrollable list of travel cards -->
+      <div class="header__sidebar-content">
+        @if (userTravels().length === 0) {
+          <p class="header__empty-state">No tienes itinerarios aún</p>
+        }
+      </div>
+
+      <div class="header__sidebar-footer">
+        <button class="header__logout-btn" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+  }
 </header>

@@ -1,5 +1,5 @@
 export interface Travel {
-  id: number;
+  id: string;
   userInfo: UserInfo;
   created_at?: string;
   budget?: string;
