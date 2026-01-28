@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Header } from "../header/header";
 
 @Component({
-  selector: 'app-hero',
-  imports: [Header],
-  templateUrl: './hero.html',
-  styleUrl: './hero.scss',
+  selector: 'app-header',
+  imports: [],
+  templateUrl: './header.html',
+  styleUrl: './header.scss',
 })
-export class Hero {
+export class Header {
   isMenuOpen = false;
 
   toggleMenu() {
