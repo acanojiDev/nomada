@@ -12,6 +12,7 @@ import { Itinerary } from '../../../core/services/itinerary';
 export class RutaGenerada {
   @ViewChild('mapContainer') mapContainer!: ElementRef;
   map!: mapboxgl.Map;
+  private markers: mapboxgl.Marker[] = [];
   private itineraryService = inject(Itinerary);
   itinerario = this.itineraryService.currentTravel;
   itineraryData = computed(() => this.itinerario()?.itinerary);
@@ -25,13 +26,19 @@ export class RutaGenerada {
 
     effect(() => {
       const data = this.itineraryData();
-      if (data?.days?.[0]?.places?.[0]?.coordinates) {
-        this.lat = data.days[0].places[0].coordinates.lat;
-        this.lng = data.days[0].places[0].coordinates.lng;
-        this.center = [this.lng, this.lat];
+      if (data && this.map) {
+        if (data.days?.[0]?.places?.[0]?.coordinates) {
+          const firstCoord = data.days[0].places[0].coordinates;
+          if (firstCoord.lat !== 0 && firstCoord.lng !== 0) {
+            this.center = [firstCoord.lng, firstCoord.lat];
+            this.map.flyTo({ center: this.center, zoom: 18 });
+          }
+        }
 
-        if (this.map) {
-          this.map.flyTo({ center: this.center, zoom: 18 });
+        if (this.map.loaded()) {
+          this.addRouteAndMarkers(data);
+        } else {
+          this.map.once('load', () => this.addRouteAndMarkers(data));
         }
       }
     });
@@ -42,6 +49,12 @@ export class RutaGenerada {
   }
 
   private initializeMap() {
+    const data = this.itineraryData();
+    if (data?.days?.[0]?.places?.[0]?.coordinates) {
+      const firstCoord = data.days[0].places[0].coordinates;
+      this.center = [firstCoord.lng, firstCoord.lat];
+    }
+
     this.map = new mapboxgl.Map({
       container: this.mapContainer.nativeElement,
       style: 'mapbox://styles/antoniocano21/cmkwhtxao00at01s97l554ehu',
@@ -53,6 +66,84 @@ export class RutaGenerada {
     this.map.on('style.load', () => {
       this.map.setFog({});
       this.map.addControl(new mapboxgl.NavigationControl());
+      const data = this.itineraryData();
+      if (data) {
+        this.addRouteAndMarkers(data);
+      }
     });
+  }
+
+  private addRouteAndMarkers(data: any) {
+    if (!data?.days) return;
+    this.markers.forEach(marker => marker.remove());
+    this.markers = [];
+
+    const coordinates: [number, number][] = [];
+
+    data.days.forEach((day: any) => {
+      day.places.forEach((place: any) => {
+        if (place.coordinates &&
+          place.coordinates.lat !== 0 &&
+          place.coordinates.lng !== 0) {
+          const coord: [number, number] = [place.coordinates.lng, place.coordinates.lat];
+          coordinates.push(coord);
+
+          const marker = new mapboxgl.Marker({
+            color: '#ff6b35',
+            scale: 0.8
+          })
+            .setLngLat(coord)
+            .setPopup(new mapboxgl.Popup({ offset: 25 })
+              .setHTML(`
+                <div style="padding: 5px; font-family: 'Outfit', sans-serif;">
+                  <h4 style="margin: 0; color: #121212;">${place.name}</h4>
+                  <p style="margin: 5px 0 0; color: #525252; font-size: 0.8rem;">${place.visit_time}</p>
+                </div>
+              `))
+            .addTo(this.map);
+          this.markers.push(marker);
+        }
+      });
+    });
+
+    if (coordinates.length > 0) {
+      if (this.map.getSource('route')) {
+        (this.map.getSource('route') as mapboxgl.GeoJSONSource).setData({
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: coordinates
+          }
+        });
+      } else {
+        this.map.addSource('route', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'LineString',
+              coordinates: coordinates
+            }
+          }
+        });
+
+        this.map.addLayer({
+          id: 'route',
+          type: 'line',
+          source: 'route',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': '#00d9ff',
+            'line-width': 4,
+            'line-opacity': 0.8
+          }
+        });
+      }
+    }
   }
 }

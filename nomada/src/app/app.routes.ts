@@ -5,12 +5,12 @@ import { guestGuard } from './core/guards/guestGuard';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./features/home-page/home-page').then(m => m.HomePage),
+    loadComponent: () => import('./features/landing-page/landing-page').then(m => m.LandingPage),
     canActivate: [authenticatedGuard()],
   },
   {
-    path: 'welcome',
-    loadComponent: () => import('./features/landing-page/landing-page').then(m => m.LandingPage),
+    path: 'generate-itinerary',
+    loadComponent: () => import('./features/home-page/home-page').then(m => m.HomePage),
   },
   {
     path: 'auth',
