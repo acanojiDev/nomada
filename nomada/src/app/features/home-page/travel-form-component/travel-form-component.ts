@@ -46,7 +46,7 @@ export class TravelFormComponent {
 
   constructor(private fb: FormBuilder) {
     this.travelForm = this.fb.group({
-      about: ['', Validators.required],
+      about: [''],
       budget: [''],
       days: [1, [Validators.required, Validators.min(1)]],
       destinationInput: ['', []],

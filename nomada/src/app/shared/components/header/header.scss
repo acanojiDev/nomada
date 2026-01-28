@@ -84,10 +84,19 @@
   &__signin {
     font-size: 0.9rem;
     font-weight: 500;
+    text-decoration: none;
     cursor: pointer;
 
+    &:visited {
+      color: black;
+    }
+
+    &:hover {
+      color: var(--color-text-secondary);
+    }
+
     @media (max-width: 768px) {
-      display: none; // Hide desktop signin on mobile/tablet
+      display: none;
     }
 
     @media (max-width: 480px) {

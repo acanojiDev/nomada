@@ -6,16 +6,15 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./features/landing-page/landing-page').then(m => m.LandingPage),
-    canActivate: [authenticatedGuard()],
   },
   {
     path: 'generate-itinerary',
     loadComponent: () => import('./features/home-page/home-page').then(m => m.HomePage),
+    canActivate: [authenticatedGuard()],
   },
   {
     path: 'auth',
     loadComponent: () => import('./features/auth-page/auth-page').then(m => m.AuthPage),
-    canActivate: [guestGuard()],
   },
   {
     path: 'details',

@@ -172,17 +172,13 @@
 
     &:hover:not(&--disabled) {
       border-color: var(--color-primary);
-      background: var(--color-background-subtle);
       transform: translateY(-2px);
     }
 
     &--selected {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-
-      .text-xs {
-        color: white;
-      }
+      background: rgb(96, 196, 221);
+      font-weight: 500;
+      border-color: var(--color-border);
     }
 
     &--disabled {
