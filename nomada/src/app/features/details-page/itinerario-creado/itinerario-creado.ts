@@ -1,9 +1,14 @@
 import { Component, inject, computed, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Itinerary } from '../../../core/services/itinerary';
+import { AccordionModule } from 'primeng/accordion';
+import { AvatarModule } from 'primeng/avatar';
+import { BadgeModule } from 'primeng/badge';
+import { ProgressSpinnerModule, ProgressSpinner } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-itinerario-creado',
-  imports: [],
+  imports: [CommonModule, AccordionModule, AvatarModule, BadgeModule, ProgressSpinner],
   templateUrl: './itinerario-creado.html',
   styleUrl: './itinerario-creado.scss',
 })
@@ -11,11 +16,6 @@ export class ItinerarioCreado {
   private itineraryService = inject(Itinerary);
   itinerario = this.itineraryService.currentTravel;
   itineraryData = computed(() => this.itinerario()?.itinerary);
-  expandedDay = signal<number | null>(1);
 
-  toggleDay(day: number): void {
-    this.expandedDay.update((current: number | null) => current === day ? null : day);
-  }
-
-  constructor() { }
+  constructor() {console.log(this.itineraryData) }
 }

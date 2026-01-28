@@ -8,37 +8,41 @@
     </header>
 
     <div class="itinerary__days">
-      @for (day of itineraryData()?.days; track day.day) {
-        <div class="day-card" [class.day-card--expanded]="expandedDay() === day.day">
-          <button class="day-card__header" (click)="toggleDay(day.day)">
-            <div class="day-card__info">
-              <span class="day-card__number">Día {{ day.day }}</span>
-              <h3 class="day-card__title">{{ day.title }}</h3>
-            </div>
-            <span class="day-card__icon material-symbols-outlined">
-              {{ expandedDay() === day.day ? '↑' : '↓' }}
-            </span>
-          </button>
-
-          @if (expandedDay() === day.day) {
-            <div class="day-card__content">
+      <p-accordion value="1">
+        @for (day of itineraryData()?.days; track day.day) {
+          <p-accordion-panel [value]="day.day" class="day-panel">
+            <p-accordion-header>
+              <ng-template #toggleicon let-active="active">
+                @if (active) {
+                  <i class="pi pi-minus"></i>
+                } @else {
+                  <i class="pi pi-plus"></i>
+                }
+              </ng-template>
+              <div class="flex items-center gap-3 w-full">
+                <p-avatar label="{{day.day}}" shape="circle" styleClass="day-avatar" />
+                <div class="day-header-text">
+                  <span class="font-bold block">Día {{ day.day }}</span>
+                  <span class="text-sm text-secondary">{{ day.title }}</span>
+                </div>
+                <p-badge [value]="day.places.length.toString()" severity="info" class="ml-auto mr-2" />
+              </div>
+            </p-accordion-header>
+            <p-accordion-content>
               <section class="meals">
                 <div class="meal-item">
-                  <span class="meal-item__icon">🍳</span>
                   <div class="meal-item__info">
                     <span class="meal-item__label">Desayuno</span>
                     <p class="meal-item__desc">{{ day.meals.breakfast }}</p>
                   </div>
                 </div>
                 <div class="meal-item">
-                  <span class="meal-item__icon">🍱</span>
                   <div class="meal-item__info">
                     <span class="meal-item__label">Almuerzo</span>
                     <p class="meal-item__desc">{{ day.meals.lunch }}</p>
                   </div>
                 </div>
                 <div class="meal-item">
-                  <span class="meal-item__icon">🍽️</span>
                   <div class="meal-item__info">
                     <span class="meal-item__label">Cena</span>
                     <p class="meal-item__desc">{{ day.meals.dinner }}</p>
@@ -65,7 +69,7 @@
 
                         @if (place.tips && place.tips.length > 0) {
                           <div class="place-card__tips">
-                            <span class="place-card__tips-label">💡 Tips:</span>
+                            <span class="place-card__tips-label">Tips:</span>
                             <ul class="place-card__tips-list">
                               @for (tip of place.tips; track $index) {
                                 <li>{{ tip }}</li>
@@ -87,15 +91,16 @@
                   </span>
                 </div>
               </footer>
-            </div>
-          }
-        </div>
-      }
+            </p-accordion-content>
+          </p-accordion-panel>
+        }
+      </p-accordion>
     </div>
   } @else {
     <div class="itinerary__loading">
       <div class="spinner"></div>
       <p>Estamos puliendo los detalles de tu aventura...</p>
+      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     </div>
   }
 </div>
