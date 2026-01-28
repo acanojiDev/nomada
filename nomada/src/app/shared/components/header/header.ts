@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, output  } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 import { Itinerary } from '../../../core/services/itinerary';
@@ -21,6 +21,9 @@ export class Header {
   isAuthenticated = this.authService.isAuthenticated;
   currentUser = this.authService.currentUser;
   userTravels = this.itineraryService.userTravels;
+
+  loginClick = output();
+  registerClick = output();
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

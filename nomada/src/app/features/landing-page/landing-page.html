@@ -1,4 +1,19 @@
-<app-hero></app-hero>
+<app-hero (loginClick)="openLogin()" (registerClick)="openRegister()"></app-hero>
+
+<dialog #loginDialog class="auth-dialog">
+  <div class="auth-dialog__content">
+    <button class="auth-dialog__close" (click)="closeLogin()">×</button>
+    <app-login-component></app-login-component>
+  </div>
+</dialog>
+
+<dialog #registerDialog class="auth-dialog">
+  <div class="auth-dialog__content">
+    <button class="auth-dialog__close" (click)="closeRegister()">×</button>
+    <app-register-component></app-register-component>
+  </div>
+</dialog>
+
 <app-itinerary-preview></app-itinerary-preview>
 <app-popular-destinations></app-popular-destinations>
 <app-idea-to-itinerary></app-idea-to-itinerary>

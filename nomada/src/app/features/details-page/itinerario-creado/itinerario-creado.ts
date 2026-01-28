@@ -17,5 +17,5 @@ export class ItinerarioCreado {
   itinerario = this.itineraryService.currentTravel;
   itineraryData = computed(() => this.itinerario()?.itinerary);
 
-  constructor() {console.log(this.itineraryData) }
+  constructor() { }
 }

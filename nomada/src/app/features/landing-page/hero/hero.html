@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header (loginClick)="loginClick.emit()" (registerClick)="registerClick.emit()"></app-header>
 
 <section class="hero">
   <!-- Animated Background -->
@@ -22,7 +22,7 @@
     </p>
 
     <div class="hero__actions">
-      <button class="hero__primary">Create your itinerary →</button>
+      <button class="hero__primary" routerLink="generate-itinerary">Create your itinerary →</button>
       <button class="hero__secondary">View example</button>
     </div>
 
