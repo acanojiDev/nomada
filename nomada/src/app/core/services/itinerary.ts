@@ -10,7 +10,6 @@ import { Travel } from '../interfaces/travel';
 })
 export class Itinerary {
   private auth = inject(Auth);
-  private supabase: SupabaseClient | null = null;
   private travelsChannel: RealtimeChannel | null = null;
 
   private readonly TABLE = 'travel';
@@ -21,13 +20,11 @@ export class Itinerary {
   isLoading = signal(false);
   error = signal<string | null>(null);
   travelsLoaded = signal(false);
+  selectedDay = signal<string>('1');
 
-  // Lazy Supabase client
+  // Use Auth service's client
   private get client(): SupabaseClient {
-    if (!this.supabase) {
-      this.supabase = createClient(environment.SUPABASE_URL, environment.SUPABASE_KEY);
-    }
-    return this.supabase;
+    return this.auth.supabase;
   }
 
   createItinerary(data: Partial<Travel>): Observable<Travel> {
@@ -160,7 +157,7 @@ export class Itinerary {
   }
 
   unsubscribeFromTravels() {
-    this.travelsChannel?.unsubscribe().then(() => { 
+    this.travelsChannel?.unsubscribe().then(() => {
       this.travelsChannel = null;
       this.travelsLoaded.set(false);
       this.userTravels.set([]);

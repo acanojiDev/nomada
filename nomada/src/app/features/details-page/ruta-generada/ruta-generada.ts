@@ -19,26 +19,34 @@ export class RutaGenerada {
   private router = inject(Router);
   itinerario = this.itineraryService.currentTravel;
   itineraryData = computed(() => this.itinerario()?.itinerary);
+  selectedDay = this.itineraryService.selectedDay;
+
+  activeDayPlaces = computed(() => {
+    const data = this.itineraryData();
+    const dayValue = this.selectedDay();
+    if (!data?.days || !dayValue) return [];
+
+    const activeDay = data.days.find((d: any) => d.day.toString() === dayValue.toString());
+    return activeDay?.places || [];
+  });
 
   lat: number = 0;
   lng: number = 0;
   center: [number, number] = [0, 0];
 
   constructor() {
-    if(!this.itineraryData()) {
+    if (!this.itineraryData()) {
       this.router.navigate(['/generate-itinerary']);
     }
     mapboxgl.accessToken = environment.MAP_KEY;
 
     effect(() => {
-      const data = this.itineraryData();
-      if (data && this.map) {
-        this.initializeMap();
-
+      const places = this.activeDayPlaces();
+      if (places && this.map) {
         if (this.map.loaded()) {
-          this.addRouteAndMarkers(data);
+          this.updateMarkersAndRoute(places);
         } else {
-          this.map.once('load', () => this.addRouteAndMarkers(data));
+          this.map.once('load', () => this.updateMarkersAndRoute(places));
         }
       }
     });
@@ -58,9 +66,9 @@ export class RutaGenerada {
     this.map = new mapboxgl.Map({
       container: this.mapContainer.nativeElement,
       style: 'mapbox://styles/antoniocano21/cmkwhtxao00at01s97l554ehu',
-      zoom: 18,
+      zoom: 17.5,
       center: this.center,
-      pitch: 60, // Pitch the map for 3D view
+      pitch: 50, // Pitch the map for 3D view
       bearing: -17.6, // Rotate the map slightly
       antialias: true, // Create smoother edges for 3D buildings
       projection: 'globe'
@@ -70,9 +78,23 @@ export class RutaGenerada {
       this.map.setFog({});
       this.map.addControl(new mapboxgl.NavigationControl());
 
-      // Add 3D buildings layer
-      if (!this.map.getLayer('add-3d-buildings')) {
-        const layers = this.map.getStyle().layers;
+      // Add terrain source for 3D relief
+      if (!this.map.getSource('mapbox-dem')) {
+        this.map.addSource('mapbox-dem', {
+          'type': 'raster-dem',
+          'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          'tileSize': 512,
+          'maxzoom': 14
+        });
+        this.map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+      }
+
+      // Add 3D buildings layer safely
+      const style = this.map.getStyle();
+      const hasCompositeSource = style.sources && style.sources['composite'];
+
+      if (hasCompositeSource && !this.map.getLayer('add-3d-buildings')) {
+        const layers = style.layers;
         let labelLayerId;
         for (let i = 0; i < layers.length; i++) {
           const layer = layers[i];
@@ -117,44 +139,41 @@ export class RutaGenerada {
         );
       }
 
-      const data = this.itineraryData();
-      if (data) {
-        this.addRouteAndMarkers(data);
+      const places = this.activeDayPlaces();
+      if (places.length > 0) {
+        this.updateMarkersAndRoute(places);
       }
     });
   }
 
-  private addRouteAndMarkers(data: any) {
-    if (!data?.days) return;
+  private updateMarkersAndRoute(places: any[]) {
     this.markers.forEach(marker => marker.remove());
     this.markers = [];
 
     const coordinates: [number, number][] = [];
 
-    data.days.forEach((day: any) => {
-      day.places.forEach((place: any) => {
-        if (place.coordinates &&
-          place.coordinates.lat !== 0 &&
-          place.coordinates.lng !== 0) {
-          const coord: [number, number] = [place.coordinates.lng, place.coordinates.lat];
-          coordinates.push(coord);
+    places.forEach((place: any) => {
+      if (place.coordinates &&
+        place.coordinates.lat !== 0 &&
+        place.coordinates.lng !== 0) {
+        const coord: [number, number] = [place.coordinates.lng, place.coordinates.lat];
+        coordinates.push(coord);
 
-          const marker = new mapboxgl.Marker({
-            color: '#ff6b35',
-            scale: 0.8
-          })
-            .setLngLat(coord)
-            .setPopup(new mapboxgl.Popup({ offset: 25 })
-              .setHTML(`
+        const marker = new mapboxgl.Marker({
+          color: '#ff6b35',
+          scale: 0.8
+        })
+          .setLngLat(coord)
+          .setPopup(new mapboxgl.Popup({ offset: 25 })
+            .setHTML(`
                 <div style="padding: 5px; font-family: 'Outfit', sans-serif;">
                   <h4 style="margin: 0; color: #121212;">${place.name}</h4>
                   <p style="margin: 5px 0 0; color: #525252; font-size: 0.8rem;">${place.visit_time}</p>
                 </div>
               `))
-            .addTo(this.map);
-          this.markers.push(marker);
-        }
-      });
+          .addTo(this.map);
+        this.markers.push(marker);
+      }
     });
 
     if (coordinates.length > 0) {

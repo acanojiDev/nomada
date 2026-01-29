@@ -1,6 +1,6 @@
 <header class="header">
   <div class="header__container">
-    <div class="header__brand" (click)="goToHome()">
+    <div class="header__brand" routerLink="">
       <div class="header__logo"></div>
       <span class="header__name">Flyealo</span>
     </div>
@@ -24,6 +24,9 @@
 
       @if (isAuthenticated()) {
         <button class="header__itineraries-btn" (click)="toggleSidebar()">My itineraries</button>
+        <button class="header__logout-btn header__logout-btn--compact" (click)="logout()" title="Log out">
+          <i class="pi pi-sign-out"></i>
+        </button>
       }
 
       <button
@@ -89,12 +92,13 @@
             <p class="header__empty-state">You don't have any itineraries yet</p>
           } @else {
             @for (travel of userTravels(); track travel.id) {
-              <app-history-card [itinerary]="travel"></app-history-card>
+              <app-history-card
+                [itinerary]="travel"
+                (cardClick)="goToItinerary($event)"
+              ></app-history-card>
             }
           }
         </div>
-
-        <button class="header__logout-btn" (click)="logout()">Log out</button>
       </div>
     </div>
   }
@@ -120,13 +124,12 @@
           <p class="header__empty-state">You don't have any itineraries yet</p>
         } @else {
           @for (travel of userTravels(); track travel.id) {
-            <app-history-card [itinerary]="travel" (cardClick)="goToItinerary($event)"></app-history-card>
+            <app-history-card
+              [itinerary]="travel"
+              (cardClick)="goToItinerary($event)"
+            ></app-history-card>
           }
         }
-      </div>
-
-      <div class="header__sidebar-footer">
-        <button class="header__logout-btn" (click)="logout()">Log out</button>
       </div>
     </div>
   }

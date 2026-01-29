@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment.development';
   providedIn: 'root',
 })
 export class Auth {
-  private supabase: SupabaseClient;
+  public supabase: SupabaseClient;
   currentUser = signal<User | null>(null);
   isAuthenticated = signal<boolean>(false);
 

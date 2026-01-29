@@ -1,6 +1,6 @@
 import { Component, inject, signal, output, effect } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 import { Itinerary } from '../../../core/services/itinerary';
 import { take } from 'rxjs';
@@ -8,7 +8,7 @@ import { HistoryCard } from "../history-card/history-card";
 
 @Component({
   selector: 'app-header',
-  imports: [HistoryCard],
+  imports: [HistoryCard, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -37,7 +37,7 @@ export class Header {
       this.isDarkTheme.set(true);
       this.document.documentElement.classList.add('dark');
     }
-     effect(() => {
+    effect(() => {
       const isOpen = this.isSidebarOpen() || this.isMenuOpen();
       const isAuth = this.isAuthenticated();
       const needsLoad = !this.itineraryService.travelsLoaded();
@@ -46,10 +46,6 @@ export class Header {
         this.itineraryService.getAllTravels().pipe(take(1)).subscribe();
       }
     });
-  }
-
-  goToHome() {
-    this.router.navigate(['/']);
   }
 
   toggleTheme() {
@@ -82,7 +78,7 @@ export class Header {
   goToItinerary(id: string) {
     this.closeSidebar();
     this.closeMenu();
-    
+
     this.itineraryService.setCurrentTravelById(id);
     this.router.navigate(['/details']);
   }
@@ -94,6 +90,6 @@ export class Header {
         this.toggleSidebar();
         this.toggleMenu();
         this.router.navigate(['/'])
-    });
+      });
   }
 }

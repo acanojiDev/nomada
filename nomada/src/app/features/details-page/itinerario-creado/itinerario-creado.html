@@ -8,7 +8,7 @@
     </header>
 
     <div class="itinerary__days">
-      <p-accordion value="1">
+      <p-accordion [value]="selectedDay()" (valueChange)="selectedDay.set($event!.toString())">
         @for (day of itineraryData()?.days; track day.day) {
           <p-accordion-panel [value]="day.day" class="day-panel">
             <p-accordion-header>

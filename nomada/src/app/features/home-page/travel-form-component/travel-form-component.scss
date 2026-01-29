@@ -50,21 +50,22 @@
     width: 100%;
     padding: 0.8rem 1rem;
     border-radius: var(--radius-md);
-    border: 1px solid var(--color-border-dark);
+    border: 1px solid var(--color-border);
     font-family: var(--font-primary);
     font-size: 0.95rem;
     color: var(--color-text-primary);
-    background: white;
+    background: var(--color-background-soft); // Use soft background for better field definition
     transition: all 0.2s ease;
 
     &::placeholder {
-      color: var(--color-text-muted);
+      color: var(--color-text-secondary); // Brighter than muted for better visibility
     }
 
     &:focus {
       outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px var(--color-accent-soft);
+      background: var(--color-background);
     }
   }
 
@@ -81,6 +82,7 @@
     height: 44px;
     font-size: 1.25rem;
     font-weight: 600;
+    color: var(--color-text-inverse);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -141,9 +143,17 @@
 
   &__interests {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(5, 1fr); // 5 in the row as requested
     gap: 0.75rem;
     margin-top: 0.25rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   &__interest {
@@ -152,8 +162,8 @@
     align-items: center;
     justify-content: center;
     padding: 1rem 0.5rem;
-    background: white;
-    border: 1px solid var(--color-border-dark);
+    background: var(--color-background-soft);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -167,7 +177,8 @@
     .text-xs {
       font-size: 0.75rem;
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--color-text-primary); // Default to theme
+      transition: color 0.2s ease;
     }
 
     &:hover:not(&--disabled) {
@@ -176,9 +187,14 @@
     }
 
     &--selected {
-      background: rgb(96, 196, 221);
+      background: #00d9ff; // Use a more vibrant cyan
       font-weight: 500;
-      border-color: var(--color-border);
+      border-color: var(--color-accent);
+
+      // Force black text for selected interests as requested
+      .text-lg, .text-xs {
+        color: #000000 !important;
+      }
     }
 
     &--disabled {
@@ -191,7 +207,7 @@
   &__submit {
     margin-top: 1rem;
     background: var(--color-primary);
-    color: white;
+    color: var(--color-text-inverse);
     border: none;
     padding: 1rem;
     border-radius: var(--radius-full);
@@ -204,7 +220,7 @@
     &:hover:not(:disabled) {
       background: var(--color-primary-soft);
       transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 8px 20px rgba(0, 217, 255, 0.2);
     }
 
     &:disabled {

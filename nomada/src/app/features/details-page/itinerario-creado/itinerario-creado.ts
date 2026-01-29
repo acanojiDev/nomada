@@ -4,7 +4,7 @@ import { Itinerary } from '../../../core/services/itinerary';
 import { AccordionModule } from 'primeng/accordion';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
-import { ProgressSpinnerModule, ProgressSpinner } from 'primeng/progressspinner';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-itinerario-creado',
@@ -16,6 +16,7 @@ export class ItinerarioCreado {
   private itineraryService = inject(Itinerary);
   itinerario = this.itineraryService.currentTravel;
   itineraryData = computed(() => this.itinerario()?.itinerary);
+  selectedDay = this.itineraryService.selectedDay;
 
   constructor() { }
 }
