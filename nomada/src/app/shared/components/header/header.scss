@@ -385,6 +385,10 @@
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.3s ease;
     z-index: 99;
 
+    @media (min-width: 769px) {
+      display: none;
+    }
+
     &--open {
       transform: translateX(0);
     }

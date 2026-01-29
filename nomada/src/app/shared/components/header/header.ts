@@ -17,7 +17,7 @@ export class Header {
   private router = inject(Router);
   private document = inject(DOCUMENT);
 
-  isMenuOpen = false;
+  isMenuOpen = signal(false);
   isSidebarOpen = signal(false);
   isDarkTheme = signal(false);
 
@@ -36,12 +36,12 @@ export class Header {
       this.isDarkTheme.set(true);
       this.document.documentElement.classList.add('dark');
     }
-    effect(() => {
-      if (
-        this.isAuthenticated() &&
-        (this.isSidebarOpen() || this.isMenuOpen) &&
-        !this.itineraryService.travelsLoaded()
-      ) {
+     effect(() => {
+      const isOpen = this.isSidebarOpen() || this.isMenuOpen();
+      const isAuth = this.isAuthenticated();
+      const needsLoad = !this.itineraryService.travelsLoaded();
+
+      if (isOpen && isAuth && needsLoad) {
         this.itineraryService.getAllTravels().pipe(take(1)).subscribe();
       }
     });
@@ -59,11 +59,11 @@ export class Header {
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.isMenuOpen.update(val => !val);
   }
-  
+
   toggleSidebar() {
-    this.isSidebarOpen.set(!this.isSidebarOpen());
+    this.isSidebarOpen.update(val => !val);
   }
 
   goToItinerary(id: string) {

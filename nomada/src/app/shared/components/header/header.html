@@ -44,7 +44,7 @@
     <button
       class="header__hamburger"
       (click)="toggleMenu()"
-      [class.header__hamburger--open]="isMenuOpen"
+      [class.header__hamburger--open]="isMenuOpen()"
     >
       <span></span>
       <span></span>
@@ -54,7 +54,7 @@
 
   <!-- Mobile Menu - Navigation Landing -->
   @if (!isAuthenticated()) {
-    <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
+    <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen()">
       <nav class="header__mobile-nav">
         <a class="header__mobile-link" (click)="toggleMenu()">Destinations</a>
         <a class="header__mobile-link" (click)="toggleMenu()">How it works</a>
@@ -75,7 +75,7 @@
 
   <!-- Mobile Menu - itineraries -->
   @if (isAuthenticated()) {
-    <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
+    <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen()">
       <div class="header__mobile-travels">
         <div class="header__mobile-travels-header">
           <h3>My Itineraries</h3>
