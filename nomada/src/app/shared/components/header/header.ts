@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 import { Itinerary } from '../../../core/services/itinerary';
 import { take } from 'rxjs';
+import { HistoryCard } from "../history-card/history-card";
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [HistoryCard],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -45,6 +46,10 @@ export class Header {
         this.itineraryService.getAllTravels().pipe(take(1)).subscribe();
       }
     });
+  }
+
+  goToHome() {
+    this.router.navigate(['/']);
   }
 
   toggleTheme() {

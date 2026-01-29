@@ -1,7 +1,6 @@
 <header class="header">
   <div class="header__container">
-    <!-- Brand section: logo + app name -->
-    <div class="header__brand">
+    <div class="header__brand" (click)="goToHome()">
       <div class="header__logo"></div>
       <span class="header__name">Flyealo</span>
     </div>
@@ -90,9 +89,7 @@
             <p class="header__empty-state">You don't have any itineraries yet</p>
           } @else {
             @for (travel of userTravels(); track travel.id) {
-              <article class="header__travel-card" (click)="goToItinerary(travel.id)">
-                <h3>{{ travel.cities.join(', ') || 'Sin destino' }}</h3>
-              </article>
+              <app-history-card [itinerary]="travel"></app-history-card>
             }
           }
         </div>
@@ -123,9 +120,7 @@
           <p class="header__empty-state">You don't have any itineraries yet</p>
         } @else {
           @for (travel of userTravels(); track travel.id) {
-            <article class="header__travel-card" (click)="goToItinerary(travel.id)">
-              <h3>{{ travel.cities.join(', ') || 'Sin destino' }}</h3>
-            </article>
+            <app-history-card [itinerary]="travel" (cardClick)="goToItinerary($event)"></app-history-card>
           }
         }
       </div>

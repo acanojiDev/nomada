@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, computed, inject, effect } from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import { Itinerary } from '../../../core/services/itinerary';
+import { environment } from '../../../../environments/environment.development';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,6 +16,7 @@ export class RutaGenerada {
   map!: mapboxgl.Map;
   private markers: mapboxgl.Marker[] = [];
   private itineraryService = inject(Itinerary);
+  private router = inject(Router);
   itinerario = this.itineraryService.currentTravel;
   itineraryData = computed(() => this.itinerario()?.itinerary);
 
@@ -22,19 +25,15 @@ export class RutaGenerada {
   center: [number, number] = [0, 0];
 
   constructor() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYW50b25pb2Nhbm8yMSIsImEiOiJjbWtlOXMyZjUwNG01M2ZzZnZ5Znp5a3pyIn0.ncuZ57WHTcURBFNHefqb8Q';
+    if(!this.itineraryData()) {
+      this.router.navigate(['/generate-itinerary']);
+    }
+    mapboxgl.accessToken = environment.MAP_KEY;
 
     effect(() => {
-      this.initializeMap();
       const data = this.itineraryData();
       if (data && this.map) {
-        if (data.days?.[0]?.places?.[0]?.coordinates) {
-          const firstCoord = data.days[0].places[0].coordinates;
-          if (firstCoord.lat !== 0 && firstCoord.lng !== 0) {
-            this.center = [firstCoord.lng, firstCoord.lat];
-            this.map.flyTo({ center: this.center, zoom: 18 });
-          }
-        }
+        this.initializeMap();
 
         if (this.map.loaded()) {
           this.addRouteAndMarkers(data);
