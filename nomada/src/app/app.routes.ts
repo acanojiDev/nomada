@@ -6,15 +6,12 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./features/landing-page/landing-page').then(m => m.LandingPage),
+    canActivate: [guestGuard()],
   },
   {
     path: 'generate-itinerary',
     loadComponent: () => import('./features/home-page/home-page').then(m => m.HomePage),
     canActivate: [authenticatedGuard()],
-  },
-  {
-    path: 'auth',
-    loadComponent: () => import('./features/auth-page/auth-page').then(m => m.AuthPage),
   },
   {
     path: 'details',
@@ -23,6 +20,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    loadComponent: () => import('./features/error-page/error-page').then(m => m.ErrorPage)
+    loadComponent: () => import('./features/error-page/error-page').then(m => m.ErrorPage),
+    redirectTo: '',
   }
 ];

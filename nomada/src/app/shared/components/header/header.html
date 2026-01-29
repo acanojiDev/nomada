@@ -17,33 +17,40 @@
     }
 
     <!-- Actions section: different content based on authentication status -->
+    <div style="display: flex; align-items: center; gap: 1rem">
       @if (!isAuthenticated()) {
         <button class="header__login-btn" (click)="loginClick.emit()">Log in</button>
         <button class="header__cta" (click)="registerClick.emit()">Sign up</button>
       }
-      <button class="header__theme-btn" (click)="toggleTheme()" [attr.aria-label]="isDarkTheme() ? 'Switch to light mode' : 'Switch to dark mode'">
+
+      @if (isAuthenticated()) {
+        <button class="header__itineraries-btn" (click)="toggleSidebar()">My itineraries</button>
+      }
+
+      <button
+        class="header__theme-btn"
+        (click)="toggleTheme()"
+        [attr.aria-label]="isDarkTheme() ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
         @if (isDarkTheme()) {
           <i class="pi pi-sun"></i>
         } @else {
           <i class="pi pi-moon"></i>
         }
       </button>
-
-      @if (isAuthenticated()) {
-        <button class="header__itineraries-btn" (click)="toggleSidebar()">My itineraries</button>
-      }
-
-      <!-- Hamburger Menu Button -->
-      <button
-        class="header__hamburger"
-        (click)="toggleMenu()"
-        [class.header__hamburger--open]="isMenuOpen"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
+
+    <!-- Hamburger Menu Button -->
+    <button
+      class="header__hamburger"
+      (click)="toggleMenu()"
+      [class.header__hamburger--open]="isMenuOpen"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 
   <!-- Mobile Menu - Navigation Landing -->
   @if (!isAuthenticated()) {
@@ -55,8 +62,12 @@
         <a class="header__mobile-link" (click)="closeMenu()">Pricing</a>
 
         <div class="header__mobile-actions">
-          <button class="header__mobile-link" (click)="loginClick.emit(); closeMenu()">Log in</button>
-          <button class="header__mobile-cta" (click)="registerClick.emit(); closeMenu()">Sign up</button>
+          <button class="header__mobile-link" (click)="loginClick.emit(); closeMenu()">
+            Log in
+          </button>
+          <button class="header__mobile-cta" (click)="registerClick.emit(); closeMenu()">
+            Sign up
+          </button>
         </div>
       </nav>
     </div>
@@ -66,49 +77,59 @@
   @if (isAuthenticated()) {
     <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
       <div class="header__mobile-travels">
-        <!-- Header with title -->
         <div class="header__mobile-travels-header">
-          <h3>Mis Itinerarios</h3>
+          <h3>My Itineraries</h3>
         </div>
 
-        <!-- Scrollable list of travel itineraries -->
         <div class="header__mobile-travels-list">
-          <!-- Empty state: shown when user has no itineraries -->
-          @if (userTravels().length === 0) {
-            <p class="header__empty-state">No tienes itinerarios aún</p>
+          @if (isLoadingTravels()) {
+            <div class="header__loading">
+              <p>Loading your itineraries...</p>
+            </div>
+          } @else if (userTravels().length === 0) {
+            <p class="header__empty-state">You don't have any itineraries yet</p>
+          } @else {
+            @for (travel of userTravels(); track travel.id) {
+              <h4>{{ travel.cities.join(', ') || 'Sin destino' }}</h4>
+            }
           }
         </div>
 
-        <!-- Logout button at the bottom -->
-        <button class="header__logout-btn" (click)="logout()">Cerrar sesión</button>
+        <button class="header__logout-btn" (click)="logout()">Log out</button>
       </div>
     </div>
   }
 
   <!-- Desktop Sidebar - Itineraries -->
   @if (isAuthenticated()) {
-    <!-- Dark overlay behind sidebar, closes sidebar on click -->
     @if (isSidebarOpen()) {
       <div class="header__sidebar-overlay" (click)="closeSidebar()"></div>
     }
 
-    <!-- Sidebar panel sliding from right side -->
     <div class="header__sidebar" [class.header__sidebar--open]="isSidebarOpen()">
-      <!-- Sidebar header: title + close button -->
       <div class="header__sidebar-header">
-        <h2>Mis Itinerarios</h2>
+        <h2>My Itineraries</h2>
         <button class="header__sidebar-close" (click)="closeSidebar()">×</button>
       </div>
 
-      <!-- Main content area: scrollable list of travel cards -->
       <div class="header__sidebar-content">
-        @if (userTravels().length === 0) {
-          <p class="header__empty-state">No tienes itinerarios aún</p>
+        @if (isLoadingTravels()) {
+          <div class="header__loading">
+            <p>Loading your itineraries...</p>
+          </div>
+        } @else if (userTravels().length === 0) {
+          <p class="header__empty-state">You don't have any itineraries yet</p>
+        } @else {
+          @for (travel of userTravels(); track travel.id) {
+            <article class="header__travel-card" (click)="goToItinerary(travel.id)">
+              <h3>{{ travel.cities.join(', ') || 'Sin destino' }}</h3>
+            </article>
+          }
         }
       </div>
 
       <div class="header__sidebar-footer">
-        <button class="header__logout-btn" (click)="logout()">Cerrar sesión</button>
+        <button class="header__logout-btn" (click)="logout()">Log out</button>
       </div>
     </div>
   }

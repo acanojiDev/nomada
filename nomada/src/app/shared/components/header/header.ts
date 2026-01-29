@@ -1,4 +1,4 @@
-import { Component, inject, signal, output } from '@angular/core';
+import { Component, inject, signal, output, effect } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
@@ -24,6 +24,7 @@ export class Header {
   isAuthenticated = this.authService.isAuthenticated;
   currentUser = this.authService.currentUser;
   userTravels = this.itineraryService.userTravels;
+  isLoadingTravels = this.itineraryService.isLoading;
 
   loginClick = output();
   registerClick = output();
@@ -34,6 +35,20 @@ export class Header {
       this.isDarkTheme.set(true);
       this.document.documentElement.classList.add('dark');
     }
+    effect(() => {
+      if (this.isSidebarOpen() && this.isAuthenticated() && !this.itineraryService.travelsLoaded()) {
+        this.loadTravels();
+      }
+    });
+    effect(() => {
+      if (this.isMenuOpen && this.isAuthenticated() && !this.itineraryService.travelsLoaded()) {
+        this.loadTravels();
+      }
+    });
+  }
+
+  private loadTravels() {
+    this.itineraryService.getAllTravels().subscribe();
   }
 
   toggleTheme() {
@@ -66,12 +81,14 @@ export class Header {
   goToItinerary(id: string) {
     this.closeSidebar();
     this.closeMenu();
-    this.router.navigate(['/itinerary', id]);
+    this.itineraryService.setCurrentTravelById(id);
+    this.router.navigate(['/details']);
   }
 
   async logout() {
     const result = await this.authService.signOut();
     if (result.success) {
+      this.itineraryService.unsubscribeFromTravels();
       this.closeSidebar();
       this.closeMenu();
       this.router.navigate(['/']);

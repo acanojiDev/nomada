@@ -173,15 +173,14 @@
 
   &__primary {
     background: var(--color-primary);
-    color: #fff;
-    border: none;
-    padding: 1rem 2rem;
+    color: var(--color-text-inverse);
+    border: 1px solid var(--color-border);
+    padding: 0.6rem 2rem;
     border-radius: var(--radius-full);
-    font-size: 1rem;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: var(--shadow-md);
 
     @media (max-width: 480px) {
       width: 100%;

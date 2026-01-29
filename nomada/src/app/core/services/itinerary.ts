@@ -12,12 +12,14 @@ export class Itinerary {
   private supabase: SupabaseClient;
   private readonly TABLE_NAME = 'travel';
   private auth = inject(Auth);
+  private travelsChannel: RealtimeChannel | null = null;
 
   // Signals
   currentTravel = signal<Travel | null>(null);
   userTravels = signal<Travel[]>([]);
   isLoading = signal<boolean>(false);
   error = signal<string | null>(null);
+  travelsLoaded = signal<boolean>(false);
 
   constructor() {
     this.supabase = createClient(environment.SUPABASE_URL, environment.SUPABASE_KEY);
@@ -44,7 +46,7 @@ export class Itinerary {
             groqStatus: 'pending',
           })
           .select('*')
-          .single()
+          .single(),
       ).subscribe({
         next: ({ data: insertedData, error }) => {
           if (error || !insertedData) {
@@ -87,7 +89,7 @@ export class Itinerary {
                   observer.error(new Error(errorMsg));
                   channel?.unsubscribe();
                 }
-              }
+              },
             )
             .subscribe();
         },
@@ -102,10 +104,22 @@ export class Itinerary {
     });
   }
 
+  setCurrentTravelById(id: string): void {
+    const travel = this.userTravels().find(t => t.id === id) || null;
+    this.currentTravel.set(travel);
+  }
+
   getAllTravels(): Observable<Travel[]> {
     const user = this.auth.currentUser();
     if (!user) {
       return throwError(() => new Error('Usuario no autenticado'));
+    }
+
+    if (this.travelsLoaded()) {
+      return new Observable<Travel[]>((observer) => {
+        observer.next(this.userTravels());
+        observer.complete();
+      });
     }
 
     this.isLoading.set(true);
@@ -117,7 +131,7 @@ export class Itinerary {
           .from(this.TABLE_NAME)
           .select('*')
           .eq('userInfo', user.id)
-          .order('created_at', { ascending: false })
+          .order('created_at', { ascending: false }),
       ).subscribe({
         next: ({ data, error }) => {
           if (error) {
@@ -127,11 +141,12 @@ export class Itinerary {
             observer.error(new Error(errorMsg));
             return;
           }
-
           this.userTravels.set(data as Travel[]);
+          this.travelsLoaded.set(true);
           this.isLoading.set(false);
           observer.next(data as Travel[]);
           observer.complete();
+          this.subscribeToTravelChanges(user.id);
         },
         error: (err) => {
           this.error.set(err.message);
@@ -139,7 +154,54 @@ export class Itinerary {
           observer.error(err);
         },
       });
+
+      return () => {};
     });
+  }
+
+  private subscribeToTravelChanges(userId: string) {
+    if (this.travelsChannel) {
+      this.travelsChannel.unsubscribe();
+    }
+
+    this.travelsChannel = this.supabase
+      .channel(`user-travels-${userId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: this.TABLE_NAME,
+          filter: `userInfo=eq.${userId}`,
+        },
+        (payload) => {
+          const currentTravels = this.userTravels();
+
+          if (payload.eventType === 'INSERT') {
+            this.userTravels.set([payload.new as Travel, ...currentTravels]);
+          } else if (payload.eventType === 'UPDATE') {
+            const updatedTravels = currentTravels.map((travel) =>
+              travel.id === payload.new['id'] ? (payload.new as Travel) : travel,
+            );
+            this.userTravels.set(updatedTravels);
+          } else if (payload.eventType === 'DELETE') {
+            const filteredTravels = currentTravels.filter(
+              (travel) => travel.id !== payload.old['id'],
+            );
+            this.userTravels.set(filteredTravels);
+          }
+        },
+      )
+      .subscribe();
+  }
+
+  unsubscribeFromTravels() {
+    if (this.travelsChannel) {
+      this.travelsChannel.unsubscribe();
+      this.travelsChannel = null;
+    }
+    this.travelsLoaded.set(false);
+    this.userTravels.set([]);
   }
 
   setCurrentTravel(travel: Travel | null): void {
