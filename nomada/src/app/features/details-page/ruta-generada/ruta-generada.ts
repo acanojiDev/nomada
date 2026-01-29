@@ -61,12 +61,63 @@ export class RutaGenerada {
       style: 'mapbox://styles/antoniocano21/cmkwhtxao00at01s97l554ehu',
       zoom: 18,
       center: this.center,
+      pitch: 60, // Pitch the map for 3D view
+      bearing: -17.6, // Rotate the map slightly
+      antialias: true, // Create smoother edges for 3D buildings
       projection: 'globe'
     });
 
     this.map.on('style.load', () => {
       this.map.setFog({});
       this.map.addControl(new mapboxgl.NavigationControl());
+
+      // Add 3D buildings layer
+      if (!this.map.getLayer('add-3d-buildings')) {
+        const layers = this.map.getStyle().layers;
+        let labelLayerId;
+        for (let i = 0; i < layers.length; i++) {
+          const layer = layers[i];
+          if (layer.type === 'symbol' && layer.layout && (layer.layout as any)['text-field']) {
+            labelLayerId = layer.id;
+            break;
+          }
+        }
+
+        this.map.addLayer(
+          {
+            'id': 'add-3d-buildings',
+            'source': 'composite',
+            'source-layer': 'building',
+            'filter': ['==', 'extrude', 'true'],
+            'type': 'fill-extrusion',
+            'minzoom': 15,
+            'paint': {
+              'fill-extrusion-color': '#aaa',
+              'fill-extrusion-height': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'height']
+              ],
+              'fill-extrusion-base': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'min_height']
+              ],
+              'fill-extrusion-opacity': 0.6
+            }
+          },
+          labelLayerId
+        );
+      }
+
       const data = this.itineraryData();
       if (data) {
         this.addRouteAndMarkers(data);
