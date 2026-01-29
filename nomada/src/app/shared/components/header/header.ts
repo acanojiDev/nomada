@@ -66,9 +66,18 @@ export class Header {
     this.isSidebarOpen.update(val => !val);
   }
 
+  closeMenu() {
+    this.isMenuOpen.set(false);
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen.set(false);
+  }
+
   goToItinerary(id: string) {
-    this.toggleSidebar();
-    this.toggleMenu();
+    this.closeSidebar();
+    this.closeMenu();
+    
     this.itineraryService.setCurrentTravelById(id);
     this.router.navigate(['/details']);
   }

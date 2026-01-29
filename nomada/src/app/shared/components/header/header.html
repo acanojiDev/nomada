@@ -90,7 +90,9 @@
             <p class="header__empty-state">You don't have any itineraries yet</p>
           } @else {
             @for (travel of userTravels(); track travel.id) {
-              <h4>{{ travel.cities.join(', ') || 'Sin destino' }}</h4>
+              <article class="header__travel-card" (click)="goToItinerary(travel.id)">
+                <h3>{{ travel.cities.join(', ') || 'Sin destino' }}</h3>
+              </article>
             }
           }
         </div>
