@@ -12,7 +12,7 @@ export const authenticatedGuard = (): CanActivateFn => {
     if (isAuthenticated) {
       return true;
     } else {
-      return router.createUrlTree(['/auth']);
+      return router.createUrlTree(['/']);
     }
   };
 };
