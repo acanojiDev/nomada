@@ -6,7 +6,12 @@
   background: var(--color-background);
   min-height: 100%;
   transition: background-color 0.3s ease;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem; /* Less padding on mobile */
+  }
 }
+
 
 
 .itinerary {
@@ -355,6 +360,63 @@
   }
 }
 
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .itinerary {
+    &__header {
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    &__title {
+      font-size: 2rem; /* Smaller title */
+    }
+  }
+
+  :host ::ng-deep {
+    .p-accordion-panel {
+      border-radius: 12px !important;
+    }
+
+    .p-accordion-header {
+      padding: 1.25rem 1rem !important; /* Compact header */
+    }
+
+    .p-accordion-content {
+      padding: 1.5rem 1rem !important; /* Compact content */
+    }
+
+    .day-avatar {
+      width: 2.75rem !important;
+      height: 2.75rem !important;
+      font-size: 0.9rem !important;
+    }
+
+    .day-header-text .text-sm {
+      font-size: 1.2rem; /* Smaller subtitle */
+    }
+  }
+
+  .place-card {
+    &__name {
+      font-size: 1.15rem; /* Smaller place name */
+    }
+
+    &__history {
+      font-size: 0.95rem; /* Readable but smaller body text */
+    }
+  }
+
+  .timeline {
+    &__item {
+      gap: 1rem;
+    }
+
+    &__content {
+      padding-bottom: 1.5rem; /* Reduce gap between timeline items */
+    }
+  }
+}
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }

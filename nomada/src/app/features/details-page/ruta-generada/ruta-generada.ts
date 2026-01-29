@@ -25,6 +25,7 @@ export class RutaGenerada {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYW50b25pb2Nhbm8yMSIsImEiOiJjbWtlOXMyZjUwNG01M2ZzZnZ5Znp5a3pyIn0.ncuZ57WHTcURBFNHefqb8Q';
 
     effect(() => {
+      this.initializeMap();
       const data = this.itineraryData();
       if (data && this.map) {
         if (data.days?.[0]?.places?.[0]?.coordinates) {
