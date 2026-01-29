@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { RealtimeChannel, SupabaseClient, createClient } from '@supabase/supabase-js';
+import { SupabaseClient, RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment.development';
-import { Observable, throwError, from } from 'rxjs';
+import { Observable, from, throwError, tap, map } from 'rxjs';
 import { Auth } from './auth';
 import { Travel } from '../interfaces/travel';
 
@@ -9,20 +9,25 @@ import { Travel } from '../interfaces/travel';
   providedIn: 'root',
 })
 export class Itinerary {
-  private supabase: SupabaseClient;
-  private readonly TABLE_NAME = 'travel';
   private auth = inject(Auth);
+  private supabase: SupabaseClient | null = null;
   private travelsChannel: RealtimeChannel | null = null;
+
+  private readonly TABLE = 'travel';
 
   // Signals
   currentTravel = signal<Travel | null>(null);
   userTravels = signal<Travel[]>([]);
-  isLoading = signal<boolean>(false);
+  isLoading = signal(false);
   error = signal<string | null>(null);
-  travelsLoaded = signal<boolean>(false);
+  travelsLoaded = signal(false);
 
-  constructor() {
-    this.supabase = createClient(environment.SUPABASE_URL, environment.SUPABASE_KEY);
+  // Lazy Supabase client
+  private get client(): SupabaseClient {
+    if (!this.supabase) {
+      this.supabase = createClient(environment.SUPABASE_URL, environment.SUPABASE_KEY);
+    }
+    return this.supabase;
   }
 
   createItinerary(data: Partial<Travel>): Observable<Travel> {
@@ -38,8 +43,8 @@ export class Itinerary {
       let channel: RealtimeChannel | null = null;
 
       from(
-        this.supabase
-          .from(this.TABLE_NAME)
+        this.client
+          .from(this.TABLE)
           .insert({
             ...data,
             userInfo: user.id,
@@ -57,17 +62,16 @@ export class Itinerary {
             return;
           }
 
-          // Guardamos el travel inicial
           this.currentTravel.set(insertedData as Travel);
 
-          channel = this.supabase
+          channel = this.client
             .channel(`travel-${insertedData.id}`)
             .on(
               'postgres_changes',
               {
                 event: 'UPDATE',
                 schema: 'public',
-                table: this.TABLE_NAME,
+                table: this.TABLE,
                 filter: `id=eq.${insertedData.id}`,
               },
               (payload) => {
@@ -76,9 +80,6 @@ export class Itinerary {
                 if (updatedTravel.groqStatus === 'completed') {
                   this.currentTravel.set(updatedTravel);
                   this.isLoading.set(false);
-
-                  this.userTravels.set([updatedTravel, ...this.userTravels()]);
-
                   observer.next(updatedTravel);
                   observer.complete();
                   channel?.unsubscribe();
@@ -104,11 +105,6 @@ export class Itinerary {
     });
   }
 
-  setCurrentTravelById(id: string): void {
-    const travel = this.userTravels().find(t => t.id === id) || null;
-    this.currentTravel.set(travel);
-  }
-
   getAllTravels(): Observable<Travel[]> {
     const user = this.auth.currentUser();
     if (!user) {
@@ -116,79 +112,47 @@ export class Itinerary {
     }
 
     if (this.travelsLoaded()) {
-      return new Observable<Travel[]>((observer) => {
-        observer.next(this.userTravels());
-        observer.complete();
-      });
+      return from([this.userTravels()]);
     }
 
     this.isLoading.set(true);
-    this.error.set(null);
 
-    return new Observable<Travel[]>((observer) => {
-      from(
-        this.supabase
-          .from(this.TABLE_NAME)
-          .select('*')
-          .eq('userInfo', user.id)
-          .order('created_at', { ascending: false }),
-      ).subscribe({
-        next: ({ data, error }) => {
-          if (error) {
-            const errorMsg = error.message || 'Error al cargar itinerarios';
-            this.error.set(errorMsg);
-            this.isLoading.set(false);
-            observer.error(new Error(errorMsg));
-            return;
-          }
-          this.userTravels.set(data as Travel[]);
-          this.travelsLoaded.set(true);
-          this.isLoading.set(false);
-          observer.next(data as Travel[]);
-          observer.complete();
-          this.subscribeToTravelChanges(user.id);
-        },
-        error: (err) => {
-          this.error.set(err.message);
-          this.isLoading.set(false);
-          observer.error(err);
-        },
-      });
-
-      return () => {};
-    });
+    return from(
+      this.client
+        .from(this.TABLE)
+        .select('*')
+        .eq('userInfo', user.id)
+        .order('created_at', { ascending: false }),
+    ).pipe(
+      tap(({ data }) => {
+        this.userTravels.set(data as Travel[]);
+        this.travelsLoaded.set(true);
+        this.isLoading.set(false);
+        this.subscribeToTravels();
+      }),
+      map(({ data }) => data as Travel[]),
+    );
   }
 
-  private subscribeToTravelChanges(userId: string) {
-    if (this.travelsChannel) {
-      this.travelsChannel.unsubscribe();
-    }
+  subscribeToTravels() {
+    const user = this.auth.currentUser();
+    if (!user || this.travelsChannel) return;
 
-    this.travelsChannel = this.supabase
-      .channel(`user-travels-${userId}`)
+    this.travelsChannel = this.client
+      .channel(`user-travels-${user.id}`)
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
           schema: 'public',
-          table: this.TABLE_NAME,
-          filter: `userInfo=eq.${userId}`,
+          table: this.TABLE,
+          filter: `userInfo=eq.${user.id}`,
         },
         (payload) => {
-          const currentTravels = this.userTravels();
+          const current = this.userTravels();
 
           if (payload.eventType === 'INSERT') {
-            this.userTravels.set([payload.new as Travel, ...currentTravels]);
-          } else if (payload.eventType === 'UPDATE') {
-            const updatedTravels = currentTravels.map((travel) =>
-              travel.id === payload.new['id'] ? (payload.new as Travel) : travel,
-            );
-            this.userTravels.set(updatedTravels);
-          } else if (payload.eventType === 'DELETE') {
-            const filteredTravels = currentTravels.filter(
-              (travel) => travel.id !== payload.old['id'],
-            );
-            this.userTravels.set(filteredTravels);
+            this.userTravels.set([payload.new as Travel, ...current]);
           }
         },
       )
@@ -196,15 +160,14 @@ export class Itinerary {
   }
 
   unsubscribeFromTravels() {
-    if (this.travelsChannel) {
-      this.travelsChannel.unsubscribe();
+    this.travelsChannel?.unsubscribe().then(() => { 
       this.travelsChannel = null;
-    }
-    this.travelsLoaded.set(false);
-    this.userTravels.set([]);
+      this.travelsLoaded.set(false);
+      this.userTravels.set([]);
+    });
   }
 
-  setCurrentTravel(travel: Travel | null): void {
-    this.currentTravel.set(travel);
+  setCurrentTravelById(id: string) {
+    this.currentTravel.set(this.userTravels().find((t) => t.id === id) || null);
   }
 }

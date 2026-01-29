@@ -56,16 +56,16 @@
   @if (!isAuthenticated()) {
     <div class="header__mobile-menu" [class.header__mobile-menu--open]="isMenuOpen">
       <nav class="header__mobile-nav">
-        <a class="header__mobile-link" (click)="closeMenu()">Destinations</a>
-        <a class="header__mobile-link" (click)="closeMenu()">How it works</a>
-        <a class="header__mobile-link" (click)="closeMenu()">Features</a>
-        <a class="header__mobile-link" (click)="closeMenu()">Pricing</a>
+        <a class="header__mobile-link" (click)="toggleMenu()">Destinations</a>
+        <a class="header__mobile-link" (click)="toggleMenu()">How it works</a>
+        <a class="header__mobile-link" (click)="toggleMenu()">Features</a>
+        <a class="header__mobile-link" (click)="toggleMenu()">Pricing</a>
 
         <div class="header__mobile-actions">
-          <button class="header__mobile-link" (click)="loginClick.emit(); closeMenu()">
+          <button class="header__mobile-link" (click)="loginClick.emit(); toggleMenu()">
             Log in
           </button>
-          <button class="header__mobile-cta" (click)="registerClick.emit(); closeMenu()">
+          <button class="header__mobile-cta" (click)="registerClick.emit(); toggleMenu()">
             Sign up
           </button>
         </div>
@@ -103,13 +103,13 @@
   <!-- Desktop Sidebar - Itineraries -->
   @if (isAuthenticated()) {
     @if (isSidebarOpen()) {
-      <div class="header__sidebar-overlay" (click)="closeSidebar()"></div>
+      <div class="header__sidebar-overlay" (click)="toggleSidebar()"></div>
     }
 
     <div class="header__sidebar" [class.header__sidebar--open]="isSidebarOpen()">
       <div class="header__sidebar-header">
         <h2>My Itineraries</h2>
-        <button class="header__sidebar-close" (click)="closeSidebar()">×</button>
+        <button class="header__sidebar-close" (click)="toggleSidebar()">×</button>
       </div>
 
       <div class="header__sidebar-content">

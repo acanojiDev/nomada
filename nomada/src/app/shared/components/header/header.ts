@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 import { Itinerary } from '../../../core/services/itinerary';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -36,19 +37,14 @@ export class Header {
       this.document.documentElement.classList.add('dark');
     }
     effect(() => {
-      if (this.isSidebarOpen() && this.isAuthenticated() && !this.itineraryService.travelsLoaded()) {
-        this.loadTravels();
+      if (
+        this.isAuthenticated() &&
+        (this.isSidebarOpen() || this.isMenuOpen) &&
+        !this.itineraryService.travelsLoaded()
+      ) {
+        this.itineraryService.getAllTravels().pipe(take(1)).subscribe();
       }
     });
-    effect(() => {
-      if (this.isMenuOpen && this.isAuthenticated() && !this.itineraryService.travelsLoaded()) {
-        this.loadTravels();
-      }
-    });
-  }
-
-  private loadTravels() {
-    this.itineraryService.getAllTravels().subscribe();
   }
 
   toggleTheme() {
@@ -65,33 +61,25 @@ export class Header {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
-
-  closeMenu() {
-    this.isMenuOpen = false;
-  }
-
+  
   toggleSidebar() {
     this.isSidebarOpen.set(!this.isSidebarOpen());
   }
 
-  closeSidebar() {
-    this.isSidebarOpen.set(false);
-  }
-
   goToItinerary(id: string) {
-    this.closeSidebar();
-    this.closeMenu();
+    this.toggleSidebar();
+    this.toggleMenu();
     this.itineraryService.setCurrentTravelById(id);
     this.router.navigate(['/details']);
   }
 
-  async logout() {
-    const result = await this.authService.signOut();
-    if (result.success) {
-      this.itineraryService.unsubscribeFromTravels();
-      this.closeSidebar();
-      this.closeMenu();
-      this.router.navigate(['/']);
-    }
+  logout() {
+    this.authService.signOut().then(
+      () => {
+        this.itineraryService.unsubscribeFromTravels();
+        this.toggleSidebar();
+        this.toggleMenu();
+        this.router.navigate(['/'])
+    });
   }
 }
