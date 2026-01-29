@@ -3,7 +3,7 @@
     <!-- Brand section: logo + app name -->
     <div class="header__brand">
       <div class="header__logo"></div>
-      <span class="header__name">Nomada!!!</span>
+      <span class="header__name">Flyealo</span>
     </div>
 
     <!-- Desktop Navigation - Only shown when user is NOT authenticated -->
@@ -17,10 +17,18 @@
     }
 
     <!-- Actions section: different content based on authentication status -->
-    <div class="header__actions">
       @if (!isAuthenticated()) {
-        <button class="header__cta">Start planning</button>
+        <button class="header__login-btn" (click)="loginClick.emit()">Log in</button>
+        <button class="header__cta" (click)="registerClick.emit()">Sign up</button>
       }
+      <button class="header__theme-btn" (click)="toggleTheme()" [attr.aria-label]="isDarkTheme() ? 'Switch to light mode' : 'Switch to dark mode'">
+        @if (isDarkTheme()) {
+          <i class="pi pi-sun"></i>
+        } @else {
+          <i class="pi pi-moon"></i>
+        }
+      </button>
+
       @if (isAuthenticated()) {
         <button class="header__itineraries-btn" (click)="toggleSidebar()">My itineraries</button>
       }
@@ -36,7 +44,6 @@
         <span></span>
       </button>
     </div>
-  </div>
 
   <!-- Mobile Menu - Navigation Landing -->
   @if (!isAuthenticated()) {
@@ -48,7 +55,8 @@
         <a class="header__mobile-link" (click)="closeMenu()">Pricing</a>
 
         <div class="header__mobile-actions">
-          <button class="header__mobile-cta" (click)="closeMenu()">Start planning</button>
+          <button class="header__mobile-link" (click)="loginClick.emit(); closeMenu()">Log in</button>
+          <button class="header__mobile-cta" (click)="registerClick.emit(); closeMenu()">Sign up</button>
         </div>
       </nav>
     </div>

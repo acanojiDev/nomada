@@ -1,6 +1,7 @@
 .itinerary {
   padding: 6rem 2rem;
-  background: #fafafa;
+  background: var(--color-background-soft);
+  transition: background-color 0.3s ease;
 
   &__container {
     position: relative;
@@ -15,12 +16,13 @@
   /* Floating stats */
   &__stat {
     position: absolute;
-    background: #fff;
+    background: var(--color-surface);
     border-radius: 16px;
     padding: 1rem 1.25rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     text-align: left;
     z-index: 2;
+    border: 1px solid var(--color-border);
 
     @media (max-width: 1100px) {
        position: static;
@@ -58,6 +60,7 @@
     display: block;
     font-size: 1.6rem;
     font-weight: 600;
+    color: var(--color-text-primary);
 
     @media (max-width: 768px) {
       font-size: 1.3rem;
@@ -66,15 +69,16 @@
 
   &__stat-label {
     font-size: 0.85rem;
-    color: #666;
+    color: var(--color-text-secondary);
   }
 
   /* Card */
   &__card {
-    background: #fff;
+    background: var(--color-surface);
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--color-border);
 
     @media (max-width: 600px) {
       padding: 1.5rem;
@@ -119,12 +123,12 @@
   &__window-title {
     margin-left: 0.75rem;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--color-text-secondary);
   }
 
   &__badge {
-    background: #000;
-    color: #fff;
+    background: var(--color-text-primary);
+    color: var(--color-background);
     font-size: 0.75rem;
     padding: 0.4rem 0.75rem;
     border-radius: 999px;
@@ -137,6 +141,7 @@
   &__title {
     font-size: 1.8rem;
     font-weight: 600;
+    color: var(--color-text-primary);
 
     @media (max-width: 480px) {
       font-size: 1.5rem;
@@ -145,7 +150,7 @@
 
   &__date {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--color-text-secondary);
   }
 
   /* List */
@@ -163,23 +168,24 @@
     align-items: center;
     padding: 1.2rem 1.4rem;
     border-radius: 14px;
-    border: 1px solid #eee;
+    border: 1px solid var(--color-border);
     cursor: pointer;
+    transition: background-color 0.2s ease;
 
     @media (max-width: 480px) {
       padding: 1rem;
     }
 
     &:hover {
-      background: #fafafa;
+      background: var(--color-background-soft);
     }
   }
 
   &__day {
     width: 36px;
     height: 36px;
-    background: #000;
-    color: #fff;
+    background: var(--color-text-primary);
+    color: var(--color-background);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -195,6 +201,7 @@
 
   &__item-title {
     font-weight: 500;
+    color: var(--color-text-primary);
     @media (max-width: 480px) {
       font-size: 0.95rem;
     }
@@ -202,12 +209,12 @@
 
   &__item-subtitle {
     font-size: 0.85rem;
-    color: #666;
+    color: var(--color-text-secondary);
   }
 
   &__arrow {
     font-size: 1.2rem;
-    color: #999;
+    color: var(--color-text-muted);
 
     @media (max-width: 480px) {
       display: none;

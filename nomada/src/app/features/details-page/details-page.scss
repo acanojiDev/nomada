@@ -1,7 +1,7 @@
 .details-page {
   position: relative;
   min-height: 100vh;
-  background: var(--color-background-light);
+  /* background: var(); */
   overflow: hidden;
 
   &__bg {
@@ -13,7 +13,7 @@
     overflow: hidden;
     z-index: 0;
     pointer-events: none;
-    background: white;
+    background: var(--color-background);
   }
 
   &__container {
@@ -22,17 +22,18 @@
     height: 100vh;
     z-index: 1;
     overflow: hidden;
-    background: #ffffff;
+    background: var(--color-background);
   }
 
   &__sidebar {
     width: 480px;
     height: 100%;
-    background: #ffffff;
-    border-right: 1px solid #f0f0f0;
+    background: var(--color-background);
+    border-right: 1px solid var(--color-border);
     overflow-y: auto;
     flex-shrink: 0;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
@@ -42,10 +43,10 @@
       background: transparent;
     }
     &::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.05);
+      background: var(--color-border);
       border-radius: 10px;
       &:hover {
-        background: rgba(0, 0, 0, 0.1);
+        background: var(--color-border-hover);
       }
     }
   }
@@ -53,8 +54,9 @@
   &__map-area {
     flex-grow: 1;
     height: 100%;
-    background: #fcfcfc;
+    background: var(--color-background-soft);
     position: relative;
+    transition: background-color 0.3s ease;
   }
 }
 
@@ -69,11 +71,11 @@
   &__content {
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--color-background-soft);
     backdrop-filter: blur(10px);
     border-radius: var(--radius-lg);
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--color-border);
     position: relative;
     overflow: hidden;
     display: flex;

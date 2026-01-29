@@ -68,13 +68,14 @@
   }
 
   &__cta {
-    background: radial-gradient(circle at top right, #333, #000);
-    color: #ffffff;
+    background: transparent; // Changed from dark radial gradient
+    color: var(--color-text-primary);
     border-radius: 2.5rem;
     padding: 6rem 2rem;
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border); // Added border for definition
 
     @media (max-width: 768px) {
       padding: 4rem 1.5rem;
@@ -88,7 +89,7 @@
       right: 0;
       width: 300px;
       height: 300px;
-      background: radial-gradient(circle, rgba(255,107,53,0.1), transparent 70%);
+      background: radial-gradient(circle, rgba(14, 95, 245, 0.1), transparent 70%); // Reduced opacity for proper blend
       pointer-events: none;
     }
   }
@@ -110,7 +111,7 @@
   }
 
   &__cta-text {
-    color: #a3a3a3;
+    color: var(--color-text-secondary);
     font-size: 1.1rem;
     margin-bottom: 3rem;
     max-width: 600px;
@@ -133,93 +134,11 @@
 
   &__cta-note {
     font-size: 0.85rem;
-    color: #737373;
-    font-weight: 500;
-  }
-}
-
-/* =====================
-   Review Card
-   ===================== */
-
-.review-card {
-  background-color: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem;
-  text-align: left;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: var(--color-border-dark);
-    box-shadow: var(--shadow-md);
-  }
-
-  &__rating {
-    font-size: 0.9rem;
-    margin-bottom: 1.25rem;
-	color: #FFD700;
-  }
-
-  &__text {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-    margin-bottom: 2.5rem;
-    font-weight: 400;
-  }
-
-  &__author {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  &__avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background-color: var(--color-background-light);
-    border: 1px solid var(--color-border);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-
-	  &:hover{
-		zoom: 1;
-	  }
-    }
-
-  }
-
-  &__name {
-    display: block;
-    font-weight: 700;
-    font-size: 0.95rem;
-    font-family: var(--font-heading);
-  }
-
-  &__role {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    font-weight: 500;
-  }
-
-  &__trip {
-    display: block;
-    font-size: 0.75rem;
     color: var(--color-text-muted);
-    margin-top: 0.2rem;
+    font-weight: 500;
   }
 }
+
 
 /* =====================
    Buttons
@@ -235,23 +154,23 @@
   transition: all 0.2s ease;
 
   &--primary {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: var(--color-text-primary);
+    color: var(--color-background);
 
     &:hover {
-      background-color: #f5f5f5;
+      background-color: var(--color-text-secondary);
       transform: translateY(-2px);
     }
   }
 
   &--ghost {
     background: transparent;
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-color: #ffffff;
+      background-color: var(--color-background-soft);
+      border-color: var(--color-text-primary);
     }
   }
 }

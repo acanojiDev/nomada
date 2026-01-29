@@ -2,8 +2,9 @@
 .hero {
   position: relative;
   padding-top: 140px;
-  background: #f1f5f9; // Changed from #ffffff to light gray/slate
+  background: var(--color-background-soft); // Changed from #ffffff to light gray/slate
   overflow: hidden;
+  transition: background-color 0.3s ease;
 
   @media (max-width: 768px) {
     padding-top: 100px;
@@ -74,7 +75,7 @@
     align-items: center;
     padding: 0.5rem 1.25rem;
     border-radius: var(--radius-full);
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--color-background);
     backdrop-filter: blur(8px);
     color: var(--color-text-secondary);
     font-size: 0.8rem;
@@ -82,7 +83,7 @@
     margin-bottom: 2rem;
     overflow: hidden;
     z-index: 1;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border);
 
     // The neon border effect
     &::before {
@@ -102,7 +103,7 @@
       content: '';
       position: absolute;
       inset: 1.5px;
-      background: white;
+      background: var(--color-background);
       border-radius: inherit;
       z-index: -1;
     }
@@ -194,8 +195,8 @@
   }
 
   &__secondary {
-    background: white;
-    border: 1px solid var(--color-border-dark);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     padding: 1rem 2rem;
     border-radius: var(--radius-full);
     color: var(--color-text-primary);
@@ -209,7 +210,7 @@
     }
 
     &:hover {
-      background: var(--color-background-subtle);
+      background: var(--color-background-soft);
       border-color: var(--color-text-primary);
     }
   }
