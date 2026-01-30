@@ -169,12 +169,13 @@
     transition: all 0.2s ease;
     text-align: center;
 
-    .text-lg {
+    &-icon {
       font-size: 1.5rem;
       margin-bottom: 0.4rem;
+      display: block; // Ensure it takes up space like a block
     }
 
-    .text-xs {
+    &-label {
       font-size: 0.75rem;
       font-weight: 600;
       color: var(--color-text-primary); // Default to theme
@@ -192,7 +193,7 @@
       border-color: var(--color-accent);
 
       // Force black text for selected interests as requested
-      .text-lg, .text-xs {
+      .travel-form__interest-icon, .travel-form__interest-label {
         color: #000000 !important;
       }
     }

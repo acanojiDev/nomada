@@ -9,19 +9,18 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { minLengthArray } from '../../../shared/validators/arrayLength.validator';
-import { RouterLink } from "@angular/router";
 
 const SUGGESTED_INTERESTS = [
-  { name: "Historia", emoji: "🏛️" },
-  { name: "Arte", emoji: "🎨" },
-  { name: "Gastronomía", emoji: "🍽️" },
-  { name: "Naturaleza", emoji: "🌿" },
-  { name: "Arquitectura", emoji: "🏰" },
-  { name: "Museos", emoji: "🖼️" },
-  { name: "Vida nocturna", emoji: "🌙" },
-  { name: "Compras", emoji: "🛍️" },
-  { name: "Aventura", emoji: "⛰️" },
-  { name: "Relax", emoji: "🧘" },
+  { name: "Historia", icon: "pi pi-book" },
+  { name: "Arte", icon: "pi pi-palette" },
+  { name: "Gastronomía", icon: "pi pi-star" },
+  { name: "Naturaleza", icon: "pi pi-sun" },
+  { name: "Arquitectura", icon: "pi pi-building" },
+  { name: "Museos", icon: "pi pi-images" },
+  { name: "Vida nocturna", icon: "pi pi-moon" },
+  { name: "Compras", icon: "pi pi-shopping-cart" },
+  { name: "Aventura", icon: "pi pi-compass" },
+  { name: "Relax", icon: "pi pi-cloud" },
 ];
 
 @Component({

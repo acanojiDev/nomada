@@ -87,8 +87,10 @@
             role="button"
             [attr.aria-pressed]="interests.value.includes(interest)"
           >
-            <span className="text-lg mb-1 block">{{ interest.emoji }}</span>
-            <span className="text-xs">{{ interest.name }}</span>
+            <span class="travel-form__interest-icon">
+              <i [class]="interest.icon"></i>
+            </span>
+            <span class="travel-form__interest-label">{{ interest.name }}</span>
           </div>
         }
       </div>

@@ -257,6 +257,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    width: 10px;
     gap: 0.6rem;
     text-decoration: none;
     color: var(--color-text-primary);
@@ -265,22 +266,27 @@
   &__logo {
     width: 32px;
     height: 32px;
-    background: var(--color-text-primary);
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-background);
     font-size: 0.8rem;
     font-weight: 800;
+
+    :host-context(.dark) & {
+      box-shadow: 0 0  10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
+    }
   }
 
   &__name {
-    font-weight: 700;
+    font-weight: 800;
     font-family: var(--font-heading);
-    font-size: 1.25rem;
-    letter-spacing: -0.03em;
+    font-size: 1.35rem;
     color: var(--color-text-primary);
+    background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block; // required for background-clip on some browsers
   }
 
   &__nav {
