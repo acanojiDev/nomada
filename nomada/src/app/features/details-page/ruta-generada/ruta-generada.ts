@@ -158,6 +158,7 @@ export class RutaGenerada {
         place.coordinates.lat !== 0 &&
         place.coordinates.lng !== 0) {
         const coord: [number, number] = [place.coordinates.lng, place.coordinates.lat];
+        
         if (!firstCenter) {
           firstCenter = coord;
         }
@@ -181,6 +182,7 @@ export class RutaGenerada {
     });
 
     if (coordinates.length > 0) {
+      this.map.flyTo({ center: coordinates[0] });
       if (this.map.getSource('route')) {
         (this.map.getSource('route') as mapboxgl.GeoJSONSource).setData({
           type: 'Feature',
@@ -219,6 +221,5 @@ export class RutaGenerada {
         });
       }
     }
-    this.map.flyTo({ center: firstCenter });
   }
 }
