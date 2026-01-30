@@ -35,22 +35,19 @@
             "production": {
               "budgets": [
                 {
-                  "type": "bundle",
-                  "name": "main",
+                  "type": "initial",
                   "baseline": "700kb",
-                  "maximumWarning": "700kb",
-                  "maximumError": "800kb"
+                  "maximumWarning": "900kb",
+                  "maximumError": "1mb"
                 },
                 {
-                  "type": "bundle",
-                  "name": "styles",
-                  "baseline": "700kb",
-                  "maximumWarning": "700kb",
-                  "maximumError": "800kb"
+                  "type": "any",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "50kb",
+                  "maximumWarning": "40kb",
                   "maximumError": "60kb"
                 }
               ],
