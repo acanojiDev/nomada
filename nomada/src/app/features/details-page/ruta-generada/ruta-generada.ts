@@ -62,7 +62,7 @@ export class RutaGenerada {
       const firstCoord = data.days[0].places[0].coordinates;
       this.center = [firstCoord.lng, firstCoord.lat];
     }
-
+    
     this.map = new mapboxgl.Map({
       container: this.mapContainer.nativeElement,
       style: 'mapbox://styles/antoniocano21/cmkwhtxao00at01s97l554ehu',
@@ -156,6 +156,7 @@ export class RutaGenerada {
       if (place.coordinates &&
         place.coordinates.lat !== 0 &&
         place.coordinates.lng !== 0) {
+        this.center = [place.coordinates.lng, place.coordinates.lat];
         const coord: [number, number] = [place.coordinates.lng, place.coordinates.lat];
         coordinates.push(coord);
 
@@ -215,5 +216,6 @@ export class RutaGenerada {
         });
       }
     }
+    this.map.flyTo({ center: this.center });
   }
 }

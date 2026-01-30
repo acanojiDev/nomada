@@ -1,7 +1,7 @@
 <header class="header">
   <div class="header__container">
     <div class="header__brand" routerLink="">
-      <span class="header__name">Flyealo</span>
+      <img width="150px" src="flyealo.ico">
     </div>
 
     <!-- Desktop Navigation - Only shown when user is NOT authenticated -->
@@ -39,18 +39,20 @@
           <i class="pi pi-moon"></i>
         }
       </button>
+
+
+      <button
+        class="header__hamburger"
+        (click)="toggleMenu()"
+        [class.header__hamburger--open]="isMenuOpen()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
 
     <!-- Hamburger Menu Button -->
-    <button
-      class="header__hamburger"
-      (click)="toggleMenu()"
-      [class.header__hamburger--open]="isMenuOpen()"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
   </div>
 
   <!-- Mobile Menu - Navigation Landing -->
