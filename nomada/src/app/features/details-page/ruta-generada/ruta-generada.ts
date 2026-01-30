@@ -151,13 +151,16 @@ export class RutaGenerada {
     this.markers = [];
 
     const coordinates: [number, number][] = [];
+    let firstCenter: [number, number] = [0,0];
 
     places.forEach((place: any) => {
       if (place.coordinates &&
         place.coordinates.lat !== 0 &&
         place.coordinates.lng !== 0) {
-        this.center = [place.coordinates.lng, place.coordinates.lat];
         const coord: [number, number] = [place.coordinates.lng, place.coordinates.lat];
+        if (!firstCenter) {
+          firstCenter = coord;
+        }
         coordinates.push(coord);
 
         const marker = new mapboxgl.Marker({
@@ -216,6 +219,6 @@ export class RutaGenerada {
         });
       }
     }
-    this.map.flyTo({ center: this.center });
+    this.map.flyTo({ center: firstCenter });
   }
 }
